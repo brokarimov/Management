@@ -77,4 +77,11 @@ class CategoryController extends Controller
         $category->delete();
         return redirect('/category')->with('danger', 'Ma\'lumot o\'chirildi!');
     }
+
+
+    public function search(Request $request)
+    {
+        $models = Category::where('name', 'like', '%' . $request->search . '%')->orderBy('id', 'asc')->paginate(10);
+        return view('pages.category', ['models' => $models]);
+    }
 }

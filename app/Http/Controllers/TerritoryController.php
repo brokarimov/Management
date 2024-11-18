@@ -82,4 +82,10 @@ class TerritoryController extends Controller
         $territory->delete();
         return redirect('/territory')->with('danger', 'Ma\'lumot o\'chirildi!');
     }
+    public function search(Request $request)
+    {
+        $users = User::all();
+        $models = Territory::where('name', 'like', '%' . $request->search . '%')->orderBy('id', 'asc')->paginate(10);
+        return view('pages.territory', ['models' => $models, 'users'=>$users]);
+    }
 }

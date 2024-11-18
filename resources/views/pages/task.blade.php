@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'User')
+@section('title', 'Task')
 
 @section('content')
 
@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>User</h1>
+                    <h1>Task</h1>
                 </div>
 
             </div>
@@ -59,40 +59,75 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="/user" method="POST">
+                                
+                                <form action="/task" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="modal-body">
-                                        <label for="Category">User Name:</label>
-                                        <input type="text" class="form-control" name="name" placeholder="Name">
-                                        @error('name')
+                                        <label for="Category">Ijrochi:</label>
+                                        <input type="text" class="form-control" name="employee" placeholder="Ijrochi">
+                                        @error('employee')
                                             <span class="text-danger">
                                                 {{$message}}<br>
                                             </span>
                                         @enderror
 
-                                        <label for="Category">User Email:</label>
-                                        <input type="email" class="form-control" name="email" placeholder="Email">
-                                        @error('email')
+                                        <label for="Category">Sarlavha:</label>
+                                        <input type="text" class="form-control" name="title" placeholder="Sarlavha">
+                                        @error('title')
                                             <span class="text-danger">
                                                 {{$message}}<br>
                                             </span>
                                         @enderror
 
-                                        <label for="Category">User Password:</label>
-                                        <input type="password" class="form-control" name="password"
-                                            placeholder="Password">
-                                        @error('password')
+                                        <label for="Category">Tavsif:</label>
+                                        <input type="text" class="form-control" name="description" placeholder="Tavsif">
+                                        @error('description')
                                             <span class="text-danger">
                                                 {{$message}}<br>
                                             </span>
                                         @enderror
 
-                                        <label for="Category">User Role:</label>
-                                        <select name="role" class="form-control">
-                                            <option value="admin">Admin</option>
-                                            <option value="user">User</option>
+                                        <label for="Category">File:</label>
+                                        <input type="file" class="form-control" name="file">
+                                        @error('file')
+                                            <span class="text-danger">
+                                                {{$message}}<br>
+                                            </span>
+                                        @enderror
+
+                                        <label for="Category">Muddat:</label>
+                                        <input type="date" class="form-control" name="period">
+                                        @error('period')
+                                            <span class="text-danger">
+                                                {{$message}}<br>
+                                            </span>
+                                        @enderror
+
+                                        <label for="Category">Category:</label>
+                                        <select name="category_id" class="form-control">
+                                            @foreach ($categories as $category)
+                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
                                         </select>
-                                        @error('role')
+                                        @error('category_id')
+                                            <span class="text-danger">
+                                                {{$message}}<br>
+                                            </span>
+                                        @enderror
+
+                                        <div class="form-group">
+                                            <label for="hudud">Hudud</label>
+                                            <div class="select2-purple">
+                                                <select class="select2" multiple data-placeholder="Select a State"
+                                                    style="width: 100%;" name="territory_id[]">
+                                                    @foreach ($territories as $territory)
+                                                        <option value="{{$territory->id}}">{{$territory->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        @error('territory_id')
                                             <span class="text-danger">
                                                 {{$message}}<br>
                                             </span>
@@ -104,15 +139,29 @@
                                         <button type="submit" class="btn btn-primary">Create</button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <form action="/filter" method="POST" class="form-inline">
+                                @csrf
+                                <input type="date" id="start_date" class="form-control mr-2" name="start_date">
+                                <label for="start_date" class="mr-2"> dan</label>
 
+                                <input type="date" id="end_date" class="form-control mr-2" name="end_date">
+                                <label for="end_date" class="mr-2"> gacha</label>
+
+                                <button type="submit" class="btn btn-outline-primary">Filter</button>
+                            </form>
+                        </div>
+                    </div>
                     <div class="card mt-2">
 
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <form action="/user-search" method="GET">
+                            <form action="/task-search" method="GET">
                                 @csrf
                                 <div class="input-group col-12 mt-2">
                                     <input type="text" name="search" class="form-control search-bar" id="search-bar"
@@ -128,9 +177,13 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
+                                        <th>Hudud</th>
+                                        <th>Ijrochi</th>
+                                        <th>Sarlavha</th>
+                                        <th>File</th>
+                                        <th>Yuborilgan vaqti</th>
+                                        <th>Muddat</th>
+                                        <th>Holati</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
@@ -138,9 +191,24 @@
                                     @foreach ($models as $model)
                                         <tr>
                                             <td>{{ $model->id }}</td>
-                                            <td>{{ $model->name }}</td>
-                                            <td>{{ $model->email }}</td>
-                                            <td>{{ $model->role }}</td>
+                                            <td>{{ $model->territories->name }}</td>
+                                            <td>{{ $model->tasks->employee }}</td>
+                                            <td>{{ $model->tasks->title }}</td>
+                                            <td>
+                                                <a href="{{$model->tasks->file}}" target="_blank"
+                                                    class="btn btn-outline-primary">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                                        <path
+                                                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                                                    </svg>
+                                                </a>
+                                            </td>
+                                            <td>{{ $model->created_at }}</td>
+                                            <td>{{ $model->tasks->period }}</td>
+                                            <td>{{ $model->status }}</td>
                                             <td>
                                                 <div class="d-flex">
                                                     <button type="button" class="btn btn-outline-primary mx-2"
@@ -162,19 +230,33 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title"
-                                                                        id="showModalLabel{{$model->id}}">User</h5>
+                                                                        id="showModalLabel{{$model->id}}">Topshiriq</h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <label for="User">User Name:</label>
-                                                                    {{$model->name}}<br>
-                                                                    <label for="User">User Email:</label>
-                                                                    {{$model->email}}<br>
-                                                                    <label for="User">User Role:</label>
-                                                                    {{$model->role}}
+                                                                    <label for="User">Hudud:</label>
+                                                                    {{$model->territories->name}}<br>
+                                                                    <label for="User">Ijrochi:</label>
+                                                                    {{$model->tasks->employee}}<br>
+                                                                    <label for="User">Category:</label>
+                                                                    {{$model->tasks->categories->name}}<br>
+                                                                    <label for="User">Sarlavha:</label>
+                                                                    {{$model->tasks->title}}<br>
+                                                                    <label for="User">Tavsifi:</label>
+                                                                    {{$model->tasks->description}}<br>
+                                                                    <label for="User">File: </label>
+                                                                    <a href="{{$model->tasks->file}}"
+                                                                        style="text-decoration: underline;"
+                                                                        target="_blank">Fileni ochish</a><br>
+                                                                    <label for="User">Yuborilgan vaqti:</label>
+                                                                    {{$model->created_at}}<br>
+                                                                    <label for="User">Muddat:</label>
+                                                                    {{$model->tasks->period}}<br>
+                                                                    <label for="User">Holati:</label>
+                                                                    {{$model->status}}<br>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
@@ -202,58 +284,119 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title"
-                                                                        id="updateModalLabel{{$model->id}}">User Update:
-                                                                        {{$model->name}}
+                                                                        id="updateModalLabel{{$model->id}}">Update:
+                                                                        {{$model->id}}
                                                                     </h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <form action="/user/{{$model->id}}" method="POST">
+                                                                <form action="/task/{{$model->id}}" method="POST" enctype="multipart/form-data">
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <div class="modal-body">
-                                                                        <label for="User">User Name:</label>
-                                                                        <input type="text" class="form-control" name="name"
-                                                                            placeholder="Name" value="{{$model->name}}">
-                                                                        @error('name')
+                                                                        <label for="Category">Ijrochi:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="employee" placeholder="Ijrochi"
+                                                                            value="{{$model->tasks->employee}}">
+                                                                        @error('employee')
                                                                             <span class="text-danger">
                                                                                 {{$message}}<br>
                                                                             </span>
                                                                         @enderror
 
-                                                                        <label for="User">User Email:</label>
-                                                                        <input type="email" class="form-control"
-                                                                            name="email" placeholder="Email"
-                                                                            value="{{$model->email}}">
-                                                                        @error('email')
+                                                                        <label for="Category">Sarlavha:</label>
+                                                                        <input type="text" class="form-control" name="title"
+                                                                            placeholder="Sarlavha"
+                                                                            value="{{$model->tasks->title}}">
+                                                                        @error('title')
                                                                             <span class="text-danger">
                                                                                 {{$message}}<br>
                                                                             </span>
                                                                         @enderror
 
-                                                                        <label for="User">User Password:</label>
-                                                                        <input type="password" class="form-control"
-                                                                            name="password" placeholder="Password">
-                                                                        @error('password')
+                                                                        <label for="Category">Tavsif:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="description" placeholder="Tavsif"
+                                                                            value="{{$model->tasks->description}}">
+                                                                        @error('description')
                                                                             <span class="text-danger">
                                                                                 {{$message}}<br>
                                                                             </span>
                                                                         @enderror
 
-                                                                        <label for="User">User Role:</label>
-                                                                        <select name="role" class="form-control">
-                                                                            <option value="admin" {{ $model->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                                            <option value="user" {{ $model->role == 'user' ? 'selected' : '' }}>User</option>
+                                                                        <label for="file">File:</label>
+
+                                                                        
+
+                                                                        <input type="file" class="form-control" name="file">
+
+                                                                        @error('file')
+                                                                        <span class="text-danger">
+                                                                            {{$message}}<br>
+                                                                        </span>
+                                                                        @enderror
+
+                                                                        <label for="Category">Muddat:</label>
+                                                                        <input type="date" class="form-control"
+                                                                            name="period" value="{{$model->tasks->period}}">
+                                                                        @error('period')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
+
+                                                                        <label for="Category">Category:</label>
+                                                                        <select name="category_id" class="form-control">
+                                                                            @foreach ($categories as $category)
+                                                                                <option value="{{$category->id}}"
+                                                                                    @if($category->id == $model->tasks->category_id)
+                                                                                    selected @endif>
+                                                                                    {{$category->name}}
+                                                                                </option>
+                                                                            @endforeach
                                                                         </select>
-                                                                        @error('role')
+                                                                        @error('category_id')
                                                                             <span class="text-danger">
                                                                                 {{$message}}<br>
                                                                             </span>
                                                                         @enderror
 
+                                                                        <div class="form-group">
+                                                                            <label for="hudud">Hudud</label>
+                                                                            <div class="select2-purple">
+                                                                                <select class="select2" multiple
+                                                                                    data-placeholder="Select a State"
+                                                                                    style="width: 100%;"
+                                                                                    name="territory_id[]">
+                                                                                    @php
+                                                                                    $array = [];
+                                                                                    @endphp
+                                                                                    @foreach ($territoryTasks as $territoryTask)
+                                                                                        @if ($model->task_id == $territoryTask->task_id)
+                                                                                            @php
+                                                                                            $array[] = $territoryTask->territory_id
+                                                                                            @endphp
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                    @foreach ($territories as $territory)
+                                                                                        
+                                                                                        <option value="{{$territory->id}}"
+                                                                                            @if(in_array($territory->id, $array)) selected
+                                                                                            @endif>
+                                                                                            {{$territory->name}}
+                                                                                        </option>
+                                                                                    @endforeach
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
 
+                                                                        @error('territory_id')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary"
@@ -267,7 +410,7 @@
                                                     </div>
 
                                                     <!-- Delete Form -->
-                                                    <form action="/user/{{$model->id}}" method="POST">
+                                                    <form action="/task/{{$model->id}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-outline-danger">
