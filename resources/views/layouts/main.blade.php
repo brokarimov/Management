@@ -249,6 +249,15 @@
                 </p>
               </a>
               </li>
+              <li class="nav-item">
+              <a href="/answer" class="nav-link">
+                <i class="nav-icon far fa-calendar-alt"></i>
+                <p>
+                Topshiriqlar ijrosi
+                <span class="badge badge-info right"></span>
+                </p>
+              </a>
+              </li>
             @endif
                       @if (auth()->check() && auth()->user()->role == 'user')
               <li class="nav-item">

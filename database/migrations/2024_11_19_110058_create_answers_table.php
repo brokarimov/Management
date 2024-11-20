@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('territory_tasks', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('task_id')->constrained('territory_tasks')->onDelete('cascade');
             $table->foreignId('territory_id')->constrained('territories')->onDelete('cascade');
-            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
-            $table->string('status')->default(1);
+            $table->string('title');
+            $table->string('file');
+            $table->string('comment')->nullable();
+            $table->string('status')->default('1');
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('territory_tasks');
+        Schema::dropIfExists('answers');
     }
 };

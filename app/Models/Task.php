@@ -25,4 +25,5 @@ class Task extends Model
         return $this->belongsToMany(Territory::class, 'territory_tasks', 'task_id', 'territory_id')
             ->withPivot('status'); // Optional: If you want to include other pivot columns like 'status'
     }
+    
 }

@@ -20,4 +20,8 @@ class Territory extends Model
         return $this->belongsToMany(Task::class, 'territory_tasks', 'territory_id', 'task_id')
             ->withPivot('status'); 
     }
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'territory_id');
+    }
 }

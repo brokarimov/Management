@@ -4,27 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TerritoryTask extends Model
+class Answer extends Model
 {
     protected $fillable = [
-        'territory_id',
         'task_id',
+        'territory_id',
+        'title',
+        'file',
+        'comment',
         'status',
     ];
 
     public function tasks()
     {
-        return $this->belongsTo(Task::class, 'task_id');
+        return $this->belongsTo(TerritoryTask::class, 'task_id');
     }
-
     public function territories()
     {
         return $this->belongsTo(Territory::class, 'territory_id');
     }
-
-    public function answers()
-    {
-        return $this->hasMany(Answer::class, 'task_id');
-    }
-    
 }

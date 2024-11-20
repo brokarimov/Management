@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="card mt-2">
 
                         <!-- /.card-header -->
@@ -82,7 +82,8 @@
                                         <th>Yuborilgan vaqti</th>
                                         <th>Muddat</th>
                                         <th>Holati</th>
-                                        
+                                        <th>Javob</th>
+
                                     </tr>
                                 </thead>
                                 <tbody id="">
@@ -106,8 +107,211 @@
                                             </td>
                                             <td>{{ $model->created_at }}</td>
                                             <td>{{ $model->tasks->period }}</td>
-                                            <td>{{ $model->status }}</td>
-                                            
+                                            <td>
+                                                @if ($model->status == 1)
+                                                    <form action="/accept/{{$model->id}}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="accept" value="2">
+                                                        <button class="btn btn-outline-danger">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                @elseif($model->status == 2)
+
+                                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                                                        data-target="#exampleModal{{$model->id}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                                                        </svg>
+                                                    </button>
+
+                                                    <div class="modal fade" id="exampleModal{{$model->id}}" tabindex="-1"
+                                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">ID:
+                                                                        {{$model->id}}
+                                                                    </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="answer" method="POST"
+                                                                        enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        <input type="hidden" name="task_id"
+                                                                            value="{{$model->id}}">
+                                                                        @error('task_id')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
+                                                                        <input type="hidden" name="territory_id"
+                                                                            @foreach(auth()->user()->territories as $territory)
+                                                                            value="{{$territory->id}}" @endforeach>
+                                                                        @error('territory_id')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
+                                                                        <label for="Answer">Sarlavha</label>
+                                                                        <input type="text" class="form-control" name="title"
+                                                                            placeholder="Sarlavha"
+                                                                            value="{{$model->tasks->title}}">
+                                                                        @error('title')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
+                                                                        <label for="Answer">File</label>
+                                                                        <input type="file" name="file" class="form-control">
+                                                                        @error('file')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">
+                                                                        Submit
+                                                                    </button>
+                                                                </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @elseif($model->status == 3)
+                                                    <p style="color:blue">Javob yuborilgan.</p>
+                                                @elseif($model->status == 4)
+                                                    <p style="color:green">Muvaffaqiyatli qabul qilindi.</p>
+                                                @elseif($model->status == 5)
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+                                                        data-target="#exampleModal{{$model->id}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                                        </svg>
+                                                    </button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal{{$model->id}}" tabindex="-1"
+                                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Javob
+                                                                        qaytarildi: {{$model->id}}
+                                                                    </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <label for="">Comment: </label>
+                                                                    @foreach ($model->answers as $answer)
+                                                                        {{$answer->comment}}
+                                                                    @endforeach
+
+                                                                    <form action="/reanswer/{{$model->id}}" method="POST"
+                                                                        enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        <input type="hidden" name="reanswer" value="3">
+                                                                        <input type="hidden" name="status" value="1">
+                                                                        <label for="Answer">Sarlavha</label>
+                                                                        <input type="text" class="form-control" name="title"
+                                                                            placeholder="{{$model->tasks->title}}">
+
+                                                                        @error('title')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
+                                                                        <label for="Answer">File</label>
+                                                                        <input type="file" name="file" class="form-control">
+                                                                        @error('file')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
+
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Close</button>
+                                                                            <button type="submit" class="btn btn-primary">
+                                                                                Qayta yuborish
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                @endif
+
+
+                                            </td>
+                                            <td>
+                                                @if ($model->answers)
+                                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                                                        data-target="#exampleModal{{$model->id}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                                            <path
+                                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                                        </svg>
+                                                    </button>
+
+
+                                                    <div class="modal fade" id="exampleModal{{$model->id}}" tabindex="-1"
+                                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Javob
+                                                                    </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    @foreach ($model->answers as $answer)
+                                                                        <label for="Answer">Sarlavha: </label>
+                                                                        {{$answer->title}}<br>
+                                                                        <label for="Answer">File: </label>
+                                                                        <a href="{{$answer->file}}"
+                                                                            style="text-decoration: underline;"
+                                                                            target="_blank">Fileni ochish</a><br>
+                                                                    @endforeach
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                            </td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>

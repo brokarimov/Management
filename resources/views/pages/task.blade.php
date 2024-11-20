@@ -38,14 +38,79 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
+                    <div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>Barchasi - {{$territoryTaskCount}}</h3>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="/task" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>2 kun - {{$territoryTasksfortwoCount}} </h3> <!-- Здесь выводится количество задач за 2 дня -->
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="/two" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>Ertaga - {{$territoryTasksforTomorrowCount}}</h3>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="/tomorrow" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>Bugun - {{$territoryTasksForTodayCount}}</h3>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="/today" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>Muddati<br>buzilgan - {{$territoryTasksforExpiredCount}}</h3>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="/expired" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>
+
+
+                   
+
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-outline-primary btn-lg" style="font-size: 24px;"
                         data-toggle="modal" data-target="#exampleModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                            class="bi bi-file-plus-fill" viewBox="0 0 16 16">
-                            <path
-                                d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+</svg>
                     </button>
 
                     <!-- Modal -->
@@ -148,10 +213,10 @@
                             <form action="/filter" method="POST" class="form-inline">
                                 @csrf
                                 <input type="date" id="start_date" class="form-control mr-2" name="start_date">
-                                <label for="start_date" class="mr-2"> dan</label>
+                                <label for="start_date" class="mr-2"></label>
 
                                 <input type="date" id="end_date" class="form-control mr-2" name="end_date">
-                                <label for="end_date" class="mr-2"> gacha</label>
+                                <label for="end_date" class="mr-2"></label>
 
                                 <button type="submit" class="btn btn-outline-primary">Filter</button>
                             </form>
@@ -168,7 +233,11 @@
                                         placeholder="Search">
                                     <div class="input-group-append">
                                         <button name="ok"
-                                            class="btn btn-primary form-control btn-search">Search</button>
+                                            class="btn btn-outline-primary form-control btn-search">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+</svg>
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -208,7 +277,40 @@
                                             </td>
                                             <td>{{ $model->created_at }}</td>
                                             <td>{{ $model->tasks->period }}</td>
-                                            <td>{{ $model->status }}</td>
+                                            <td>
+                                                @if ($model->status == 1)
+                                                    <button class="btn btn-outline-danger">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+</svg>
+                                                    </button>
+                                                @elseif($model->status == 2)
+                                                <button class="btn btn-outline-primary">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-open" viewBox="0 0 16 16">
+  <path d="M8.47 1.318a1 1 0 0 0-.94 0l-6 3.2A1 1 0 0 0 1 5.4v.817l5.75 3.45L8 8.917l1.25.75L15 6.217V5.4a1 1 0 0 0-.53-.882zM15 7.383l-4.778 2.867L15 13.117zm-.035 6.88L8 10.082l-6.965 4.18A1 1 0 0 0 2 15h12a1 1 0 0 0 .965-.738ZM1 13.116l4.778-2.867L1 7.383v5.734ZM7.059.435a2 2 0 0 1 1.882 0l6 3.2A2 2 0 0 1 16 5.4V14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5.4a2 2 0 0 1 1.059-1.765z"/>
+</svg>
+                                                </button>
+                                                @elseif($model->status == 3)
+                                                    <a href="/answer" class="btn btn-outline-primary">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-reply" viewBox="0 0 16 16">
+  <path d="M6.598 5.013a.144.144 0 0 1 .202.134V6.3a.5.5 0 0 0 .5.5c.667 0 2.013.005 3.3.822.984.624 1.99 1.76 2.595 3.876-1.02-.983-2.185-1.516-3.205-1.799a8.7 8.7 0 0 0-1.921-.306 7 7 0 0 0-.798.008h-.013l-.005.001h-.001L7.3 9.9l-.05-.498a.5.5 0 0 0-.45.498v1.153c0 .108-.11.176-.202.134L2.614 8.254l-.042-.028a.147.147 0 0 1 0-.252l.042-.028zM7.8 10.386q.103 0 .223.006c.434.02 1.034.086 1.7.271 1.326.368 2.896 1.202 3.94 3.08a.5.5 0 0 0 .933-.305c-.464-3.71-1.886-5.662-3.46-6.66-1.245-.79-2.527-.942-3.336-.971v-.66a1.144 1.144 0 0 0-1.767-.96l-3.994 2.94a1.147 1.147 0 0 0 0 1.946l3.994 2.94a1.144 1.144 0 0 0 1.767-.96z"/>
+</svg>                                          @elseif($model->status == 4)
+<button class="btn btn-outline-success ">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                    fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+                                                                </svg>
+                                                            </button>
+                                                    </a>
+                                                @elseif($model->status == 5)
+                                                <button class="btn btn-outline-danger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+</svg>
+                                                </button>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="d-flex">
                                                     <button type="button" class="btn btn-outline-primary mx-2"
