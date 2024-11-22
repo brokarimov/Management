@@ -16,371 +16,113 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(int $status)
     {
-        // All
-        $tasks = Task::orderBy('id', 'desc')->paginate(10);
-        $territoryTask = TerritoryTask::orderBy('id', 'desc')->paginate(10);
-        $territoryTaskCount = count(TerritoryTask::orderBy('id', 'desc')->get());
-        $categories = Category::all();
-        $territories = Territory::all();
+        $territorytasks = collect();
 
-        // Two Days
-        $endDate = Carbon::now()->addDays(2);
-
-        $taskIds = Task::whereBetween('period', [Carbon::now(), $endDate])->pluck('id')->toArray();
-
-        $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
-
-        $territoryTasksfortwo = TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-        $territoryTasksfortwoCount = count(TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')->get());
-
-        // Tomorrow
-        $tomorrowDate = Carbon::tomorrow();
-
-        $territoryTasksforTomorrow = TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->orderBy('id', 'desc')->paginate(10);
-
-        $territoryTasksforTomorrowCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->get());
-
-        // Today
-        $todayDate = Carbon::today();
-
-        $territoryTasksForToday = TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->paginate(10);
-
-        $territoryTasksForTodayCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->get());
-
-        // Expired
-        $expiredTasks = Task::whereDate('period', '<', Carbon::today())->get();
-
-        $territoryTasksforExpired = TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-
-        $territoryTasksforExpiredCount = count(TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')->get());
-
-
-        return view('pages.task', [
-            'models' => $territoryTask,
-            'tasks' => $tasks,
-            'categories' => $categories,
-            'territories' => $territories,
-            'territoryTasks' => $territoryTask,
-            'territoryTaskCount' => $territoryTaskCount,
-            'territoryTasksfortwoCount' => $territoryTasksfortwoCount,
-            'territoryTasksforTomorrowCount' => $territoryTasksforTomorrowCount,
-            'territoryTasksForTodayCount' => $territoryTasksForTodayCount,
-            'territoryTasksforExpiredCount' => $territoryTasksforExpiredCount,
-
-
-
-        ]);
-    }
-    public function two()
-    {
-        // Two Days
-        $territoryTasks = TerritoryTask::orderBy('id', 'desc')->paginate(10);
-
-        $endDate = Carbon::now()->addDays(2);
-
-        $taskIds = Task::whereBetween('period', [Carbon::now(), $endDate])->pluck('id')->toArray();
-
-        $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
-
-        $territoryTasksfortwo = TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-        $territoryTasksfortwoCount = count(TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')->get());
+        if ($status == 1) {
+            $territorytasks = TerritoryTask::paginate(10);
+            $btnColor = 'info';
+        } elseif ($status == 2) {
+            $exactDate = Carbon::now()->addDays(2)->startOfDay();
+            $territorytasks = TerritoryTask::whereDate('period', $exactDate)->paginate(10);
+            $btnColor = 'warning';
+        } elseif ($status == 3) {
+            $exactDate = Carbon::tomorrow()->startOfDay();
+            $territorytasks = TerritoryTask::whereDate('period', $exactDate)->paginate(10);
+            $btnColor = 'primary';
+        } elseif ($status == 4) {
+            $exactDate = Carbon::today()->startOfDay();
+            $territorytasks = TerritoryTask::whereDate('period', $exactDate)->paginate(10);
+            $btnColor = 'success';
+        } elseif ($status == 5) {
+            $exactDate = Carbon::today()->startOfDay();
+            $territorytasks = TerritoryTask::whereDate('period', '<', $exactDate)->paginate(10);
+            $btnColor = 'danger';
+        } elseif ($status == 6) {
+            $territorytasks = TerritoryTask::where('status', 4)->paginate(10);
+            $btnColor = 'success';
+        }
+        $countAll = TerritoryTask::all()->count();
+        $countTwo = TerritoryTask::whereDate('period', Carbon::now()->addDays(2)->startOfDay())->count();
+        $countTomorrow = TerritoryTask::whereDate('period', Carbon::tomorrow()->startOfDay())->count();
+        $countToday = TerritoryTask::whereDate('period', Carbon::today()->startOfDay())->count();
+        $countExpired = TerritoryTask::whereDate('period', '<', Carbon::today()->startOfDay())->count();
+        $countAccepted = TerritoryTask::where('status', 4)->count();
 
         $categories = Category::all();
         $territories = Territory::all();
 
-        // All
-        $territoryTask = TerritoryTask::orderBy('id', 'desc')->paginate(10);
-        $territoryTaskCount = count(TerritoryTask::orderBy('id', 'desc')->get());
-
-        // Tomorrow
-        $tomorrowDate = Carbon::tomorrow();
-
-        $territoryTasksforTomorrow = TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->orderBy('id', 'desc')->paginate(10);
-        $territoryTasksforTomorrowCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->get());
-
-        // Today
-        $todayDate = Carbon::today();
-
-        $territoryTasksForToday = TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->paginate(10);
-
-        $territoryTasksForTodayCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->get());
-
-
-        // Expired
-        $expiredTasks = Task::whereDate('period', '<', Carbon::today())->get();
-
-        $territoryTasksforExpired = TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-
-        $territoryTasksforExpiredCount = count(TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')->get());
         return view('pages.task', [
-            'models' => $territoryTasksfortwo,
+            'models' => $territorytasks,
+            'territoryTasks' => $territorytasks,
             'categories' => $categories,
             'territories' => $territories,
-            'territoryTasks' => $territoryTasks,
-            'territoryTaskCount' => $territoryTaskCount,
-            'territoryTasksfortwoCount' => $territoryTasksfortwoCount,
-            'territoryTasksforTomorrowCount' => $territoryTasksforTomorrowCount,
-            'territoryTasksForTodayCount' => $territoryTasksForTodayCount,
-            'territoryTasksforExpiredCount' => $territoryTasksforExpiredCount,
 
-
+            'countAll' => $countAll,
+            'countTwo' => $countTwo,
+            'countTomorrow' => $countTomorrow,
+            'countToday' => $countToday,
+            'countExpired' => $countExpired,
+            'countAccepted' => $countAccepted
         ]);
     }
 
-    public function tomorrow()
-    {
-        // Tomorrow
-        $tomorrowDate = Carbon::tomorrow();
-
-        $territoryTasksforTomorrow = TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->orderBy('id', 'desc')->paginate(10);
-        $territoryTasksforTomorrowCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->get());
-
-        $categories = Category::all();
-        $territories = Territory::all();
-
-        // All
-        $territoryTask = TerritoryTask::orderBy('id', 'desc')->paginate(10);
-        $territoryTaskCount = count(TerritoryTask::orderBy('id', 'desc')->get());
-
-        // Two days
-        $endDate = Carbon::now()->addDays(2);
-
-        $taskIds = Task::whereBetween('period', [Carbon::now(), $endDate])->pluck('id')->toArray();
-
-        $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
-
-        $territoryTasksfortwo = TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-        $territoryTasksfortwoCount = count(TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')->get());
-
-        // Today
-        $todayDate = Carbon::today();
-
-        $territoryTasksForToday = TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->paginate(10);
-
-        $territoryTasksForTodayCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->get());
-
-        // Expired
-        $expiredTasks = Task::whereDate('period', '<', Carbon::today())->get();
-
-        $territoryTasksforExpired = TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-
-        $territoryTasksforExpiredCount = count(TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')->get());
-
-        return view('pages.task', [
-            'models' => $territoryTasksforTomorrow,
-            'categories' => $categories,
-            'territories' => $territories,
-            'territoryTasks' => $territoryTasksforTomorrow,
-            'territoryTaskCount' => $territoryTaskCount,
-            'territoryTasksfortwoCount' => $territoryTasksfortwoCount,
-            'territoryTasksforTomorrowCount' => $territoryTasksforTomorrowCount,
-            'territoryTasksForTodayCount' => $territoryTasksForTodayCount,
-            'territoryTasksforExpiredCount' => $territoryTasksforExpiredCount,
 
 
-        ]);
-    }
-    public function today()
-    {
-        // Today
-        $todayDate = Carbon::today();
-
-        $territoryTasksForToday = TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->paginate(10);
-
-        $territoryTasksForTodayCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->get());
-
-        $categories = Category::all();
-        $territories = Territory::all();
-
-        // Tomorrow
-        $tomorrowDate = Carbon::tomorrow();
-
-        $territoryTasksforTomorrow = TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->orderBy('id', 'desc')->paginate(10);
-        $territoryTasksforTomorrowCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->get());
-
-        $categories = Category::all();
-        $territories = Territory::all();
-
-        // All
-        $territoryTask = TerritoryTask::orderBy('id', 'desc')->paginate(10);
-        $territoryTaskCount = count(TerritoryTask::orderBy('id', 'desc')->get());
-
-        // Two days
-        $endDate = Carbon::now()->addDays(2);
-
-        $taskIds = Task::whereBetween('period', [Carbon::now(), $endDate])->pluck('id')->toArray();
-
-        $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
-
-        $territoryTasksfortwo = TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-        $territoryTasksfortwoCount = count(TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')->get());
-
-        // Expired
-        $expiredTasks = Task::whereDate('period', '<', Carbon::today())->get();
-
-        $territoryTasksforExpired = TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-
-        $territoryTasksforExpiredCount = count(TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')->get());
-
-        return view('pages.task', [
-            'models' => $territoryTasksForToday,
-            'categories' => $categories,
-            'territories' => $territories,
-            'territoryTasks' => $territoryTasksForToday,
-            'territoryTaskCount' => $territoryTaskCount,
-            'territoryTasksfortwoCount' => $territoryTasksfortwoCount,
-            'territoryTasksforTomorrowCount' => $territoryTasksforTomorrowCount,
-            'territoryTasksForTodayCount' => $territoryTasksForTodayCount,
-            'territoryTasksforExpiredCount' => $territoryTasksforExpiredCount,
-
-        ]);
-    }
-    public function expired()
-    {
-        // Expired
-        $expiredTasks = Task::whereDate('period', '<', Carbon::today())->get();
-
-        $territoryTasksforExpired = TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-
-        $territoryTasksforExpiredCount = count(TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')->get());
-
-        $categories = Category::all();
-        $territories = Territory::all();
-
-        // Today
-        $todayDate = Carbon::today();
-
-        $territoryTasksForToday = TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->paginate(10);
-
-        $territoryTasksForTodayCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->get());
-
-        $categories = Category::all();
-        $territories = Territory::all();
-
-        // Tomorrow
-        $tomorrowDate = Carbon::tomorrow();
-
-        $territoryTasksforTomorrow = TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->orderBy('id', 'desc')->paginate(10);
-        $territoryTasksforTomorrowCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->get());
-
-        $categories = Category::all();
-        $territories = Territory::all();
-
-        // All
-        $territoryTask = TerritoryTask::orderBy('id', 'desc')->paginate(10);
-        $territoryTaskCount = count(TerritoryTask::orderBy('id', 'desc')->get());
-
-        // Two days
-        $endDate = Carbon::now()->addDays(2);
-
-        $taskIds = Task::whereBetween('period', [Carbon::now(), $endDate])->pluck('id')->toArray();
-
-        $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
-        $territoryTasksfortwoCount = count(TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')->get());
-
-        return view('pages.task', [
-            'models' => $territoryTasksforExpired,
-            'categories' => $categories,
-            'territories' => $territories,
-            'territoryTasks' => $territoryTasksforExpired,
-            'territoryTaskCount' => $territoryTaskCount,
-            'territoryTasksfortwoCount' => $territoryTasksfortwoCount,
-            'territoryTasksforTomorrowCount' => $territoryTasksforTomorrowCount,
-            'territoryTasksForTodayCount' => $territoryTasksForTodayCount,
-            'territoryTasksforExpiredCount' => $territoryTasksforExpiredCount,
-        ]);
-    }
-    public function indexUser()
+    public function indexUser(int $status)
     {
         $territoryIds = auth()->user()->territories->pluck('id');
 
 
-        $territoryTasks = TerritoryTask::whereIn('territory_id', $territoryIds)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+        $territorytasksQuery = TerritoryTask::whereIn('territory_id', $territoryIds)->orderBy('id', 'desc');
 
-        $tasks = Task::orderBy('id', 'desc')->paginate(10);
+
         $categories = Category::all();
         $territories = Territory::all();
 
+
+
+        if ($status == 1) {
+            $territorytasks = $territorytasksQuery->paginate(10);
+        } elseif ($status == 2) {
+            $exactDate = Carbon::now()->addDays(2)->startOfDay();
+            $territorytasks = $territorytasksQuery->whereDate('period', $exactDate)->paginate(10);
+        } elseif ($status == 3) {
+            $exactDate = Carbon::tomorrow()->startOfDay();
+            $territorytasks = $territorytasksQuery->whereDate('period', $exactDate)->paginate(10);
+        } elseif ($status == 4) {
+            $exactDate = Carbon::today()->startOfDay();
+            $territorytasks = $territorytasksQuery->whereDate('period', $exactDate)->where('status', 4)->paginate(10);
+        } elseif ($status == 5) {
+            $exactDate = Carbon::today()->startOfDay();
+            $territorytasks = $territorytasksQuery->whereDate('period', '<', $exactDate)->paginate(10);
+        }
+
+
+        $countAll = TerritoryTask::whereIn('territory_id', $territoryIds)->count();
+        $countTwo = TerritoryTask::whereIn('territory_id', $territoryIds)->whereDate('period', Carbon::now()->addDays(2)->startOfDay())->count();
+        $countTomorrow = TerritoryTask::whereIn('territory_id', $territoryIds)->whereDate('period', Carbon::tomorrow()->startOfDay())->count();
+        $countToday = TerritoryTask::whereIn('territory_id', $territoryIds)->whereDate('period', Carbon::today()->startOfDay())->count();
+        $countExpired = TerritoryTask::whereIn('territory_id', $territoryIds)->whereDate('period', '<', Carbon::today()->startOfDay())->count();
+        $countAccepted = TerritoryTask::whereIn('territory_id', $territoryIds)->where('status', 4)->count();
+
         return view('pages.taskUser', [
-            'models' => $territoryTasks,
-            'tasks' => $tasks,
+            'models' => $territorytasks,
+            'territorytasks' => $territorytasks,
             'categories' => $categories,
             'territories' => $territories,
-            'territoryTasks' => $territoryTasks
+            'countAll' => $countAll,
+            'countTwo' => $countTwo,
+            'countTomorrow' => $countTomorrow,
+            'countToday' => $countToday,
+            'countExpired' => $countExpired,
+            'countAccepted' => $countAccepted,
+
         ]);
     }
+
+
 
 
 
@@ -408,10 +150,13 @@ class TaskController extends Controller
             'description' => 'required',
             'file' => 'required|file|mimes:pdf',
             'period' => 'required',
+        ], [
+            'category_id.required' => 'Category is required.',
+            'territory_id.required' => 'At least one territory must be selected.',
+            'file.mimes' => 'Only PDF files are allowed.',
         ]);
 
         $filePath = null;
-
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
@@ -423,27 +168,31 @@ class TaskController extends Controller
             $filename = date('Y-m-d') . '_' . time() . '.' . $extension;
             $file->move('pdf_upload/', $filename);
             $filePath = 'pdf_upload/' . $filename;
+            $data['file'] = $filePath;
         }
 
-        $newTask = new Task();
-        $newTask->category_id = $request->category_id;
-        $newTask->employee = $request->employee;
-        $newTask->title = $request->title;
-        $newTask->description = $request->description;
-        $newTask->file = $filePath;
-        $newTask->period = $request->period;
+        $newTask = Task::create([
+            'category_id' => $request->category_id,
+            'employee' => $request->employee,
+            'title' => $request->title,
+            'description' => $request->description,
+            'file' => $filePath,
+            'period' => $request->period,
+        ]);
 
-        $newTask->save();
-
+        // Attach territories to the task
         foreach ($request->territory_id as $territory) {
             TerritoryTask::create([
                 'territory_id' => $territory,
                 'task_id' => $newTask->id,
+                'category_id' => $request->category_id,
+                'period' => $request->period,
             ]);
         }
 
-        return redirect('/task')->with('success', 'Ma\'lumot qo\'shildi!');
+        return redirect('/task/1')->with('success', 'Ma\'lumot qo\'shildi!');
     }
+
 
     /**
      * Display the specified resource.
@@ -479,7 +228,6 @@ class TaskController extends Controller
             'period' => 'required',
         ]);
 
-        // Find the task by ID
         $taskID = Task::where('id', $task->task_id)->first();
         $taskID->employee = $validated['employee'];
         $taskID->title = $validated['title'];
@@ -487,7 +235,6 @@ class TaskController extends Controller
         $taskID->period = $validated['period'];
         $taskID->category_id = $validated['category_id'];
 
-        // Handle the uploaded file
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
@@ -517,7 +264,7 @@ class TaskController extends Controller
 
         }
 
-        return redirect('/task')->with('warning', 'Ma\'lumot yangilandi!');
+        return redirect('/task/1')->with('warning', 'Ma\'lumot yangilandi!');
     }
 
 
@@ -529,7 +276,7 @@ class TaskController extends Controller
     public function destroy(TerritoryTask $task)
     {
         $task->delete();
-        return redirect('/task')->with('danger', 'Ma\'lumot o\'chirildi!');
+        return redirect('/task/1')->with('danger', 'Ma\'lumot o\'chirildi!');
     }
 
     public function filter(Request $request)
@@ -552,113 +299,136 @@ class TaskController extends Controller
         $categories = Category::all();
         $territories = Territory::all();
 
+        $countAll = TerritoryTask::all()->count();
+        $countTwo = TerritoryTask::whereDate('period', Carbon::now()->addDays(2)->startOfDay())->count();
+        $countTomorrow = TerritoryTask::whereDate('period', Carbon::tomorrow()->startOfDay())->count();
+        $countToday = TerritoryTask::whereDate('period', Carbon::today()->startOfDay())->count();
+        $countExpired = TerritoryTask::whereDate('period', '<', Carbon::today()->startOfDay())->count();
+        $countAccepted = TerritoryTask::where('status', 4)->count();
 
-        // Expired
-        $expiredTasks = Task::whereDate('period', '<', Carbon::today())->get();
-
-        $territoryTasksforExpired = TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-
-        $territoryTasksforExpiredCount = count(TerritoryTask::whereIn('task_id', $expiredTasks->pluck('id')->toArray())
-            ->orderBy('id', 'desc')->get());
-
-        $categories = Category::all();
-        $territories = Territory::all();
-
-        // Today
-        $todayDate = Carbon::today();
-
-        $territoryTasksForToday = TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->paginate(10);
-
-        $territoryTasksForTodayCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($todayDate) {
-            $query->whereDate('period', $todayDate);
-        })->orderBy('id', 'desc')->get());
-
-        
-
-        // Tomorrow
-        $tomorrowDate = Carbon::tomorrow();
-
-        $territoryTasksforTomorrow = TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->orderBy('id', 'desc')->paginate(10);
-        $territoryTasksforTomorrowCount = count(TerritoryTask::whereHas('tasks', function ($query) use ($tomorrowDate) {
-            $query->whereDate('period', $tomorrowDate);
-        })->get());
-
-        $categories = Category::all();
-        $territories = Territory::all();
-
-        // All
-        $territoryTask = TerritoryTask::orderBy('id', 'desc')->paginate(10);
-        $territoryTaskCount = count(TerritoryTask::orderBy('id', 'desc')->get());
-
-        // Two days
-        $endDate = Carbon::now()->addDays(2);
-
-        $taskIds = Task::whereBetween('period', [Carbon::now(), $endDate])->pluck('id')->toArray();
-
-        $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
-        $territoryTasksfortwoCount = count(TerritoryTask::whereIn('id', $territoryTaskIds)
-            ->orderBy('id', 'desc')->get());
         return view('pages.task', [
             'models' => $territoryTasks,
             'categories' => $categories,
             'territories' => $territories,
             'territoryTasks' => $territoryTasks,
-            'territoryTaskCount' => $territoryTaskCount,
-            'territoryTasksfortwoCount' => $territoryTasksfortwoCount,
-            'territoryTasksforTomorrowCount' => $territoryTasksforTomorrowCount,
-            'territoryTasksForTodayCount' => $territoryTasksForTodayCount,
-            'territoryTasksforExpiredCount' => $territoryTasksforExpiredCount,
+            'countAll' => $countAll,
+            'countTwo' => $countTwo,
+            'countTomorrow' => $countTomorrow,
+            'countToday' => $countToday,
+            'countExpired' => $countExpired,
+            'countAccepted' => $countAccepted
         ]);
     }
 
     public function filterUser(Request $request)
     {
         $territoryIds = auth()->user()->territories->pluck('id')->toArray();
+
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
-        $territoryTasks = TerritoryTask::whereIn('territory_id', $territoryIds)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+        $territoryTasksQuery = TerritoryTask::whereIn('territory_id', $territoryIds)
+            ->orderBy('id', 'desc');
 
         if ($start_date && $end_date) {
-            $taskIds = Task::whereBetween('period', [$start_date, $end_date])->pluck('id')->toArray();
-
-            $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
-
-            $territoryTasks = TerritoryTask::whereIn('id', $territoryTaskIds)
-                ->whereIn('territory_id', $territoryIds)
-                ->orderBy('id', 'desc')
-                ->paginate(10);
+            $territoryTasksQuery->whereHas('tasks', function ($query) use ($start_date, $end_date) {
+                $query->whereBetween('period', [$start_date, $end_date]);
+            });
         }
+
+        $territoryTasks = $territoryTasksQuery->paginate(10);
 
         $categories = Category::all();
         $territories = Territory::all();
+
+        $countAll = TerritoryTask::whereIn('territory_id', $territoryIds)->count();
+        $countTwo = TerritoryTask::whereIn('territory_id', $territoryIds)->whereDate('period', Carbon::now()->addDays(2)->startOfDay())->count();
+        $countTomorrow = TerritoryTask::whereIn('territory_id', $territoryIds)->whereDate('period', Carbon::tomorrow()->startOfDay())->count();
+        $countToday = TerritoryTask::whereIn('territory_id', $territoryIds)->whereDate('period', Carbon::today()->startOfDay())->count();
+        $countExpired = TerritoryTask::whereIn('territory_id', $territoryIds)->whereDate('period', '<', Carbon::today()->startOfDay())->count();
+        $countAccepted = TerritoryTask::whereIn('territory_id', $territoryIds)->where('status', 4)->count();
 
         return view('pages.taskUser', [
             'models' => $territoryTasks,
             'categories' => $categories,
             'territories' => $territories,
-            'territoryTasks' => $territoryTasks
+            'territoryTasks' => $territoryTasks,
+            'countAll' => $countAll,
+            'countTwo' => $countTwo,
+            'countTomorrow' => $countTomorrow,
+            'countToday' => $countToday,
+            'countExpired' => $countExpired,
+            'countAccepted' => $countAccepted
         ]);
     }
+
 
     public function accept(Request $request, TerritoryTask $task)
     {
         $acceptValue = $request->accept;
         $task->status = $acceptValue;
         $task->save();
-        return redirect('/taskUser');
+        return redirect('/taskUser/1');
     }
 
 
+    public function management(int $status)
+    {
+        $territorytasks = collect();
+        $btnColor = 'info';
+        if ($status == 1) {
+            $territorytasks = TerritoryTask::all();
+            $btnColor = 'info';
+        } elseif ($status == 2) {
+            $exactDate = Carbon::now()->addDays(2)->startOfDay();
+            $territorytasks = TerritoryTask::whereDate('period', $exactDate)->get();
+            $btnColor = 'warning';
+        } elseif ($status == 3) {
+            $exactDate = Carbon::tomorrow()->startOfDay();
+            $territorytasks = TerritoryTask::whereDate('period', $exactDate)->get();
+            $btnColor = 'primary';
+        } elseif ($status == 4) {
+            $exactDate = Carbon::today()->startOfDay();
+            $territorytasks = TerritoryTask::whereDate('period', $exactDate)->get();
+            $btnColor = 'success';
+        } elseif ($status == 5) {
+            $exactDate = Carbon::today()->startOfDay();
 
+            $territorytasks = TerritoryTask::whereDate('period', '<', $exactDate)->get();
+            $btnColor = 'danger';
+        } elseif ($status == 6) {
+            $territorytasks = TerritoryTask::where('status', 4)->get();
+            $btnColor = 'success';
+        }
+        $countAll = TerritoryTask::all()->count();
+        $countTwo = TerritoryTask::whereDate('period', Carbon::now()->addDays(2)->startOfDay())->count();
+        $countTomorrow = TerritoryTask::whereDate('period', Carbon::tomorrow()->startOfDay())->count();
+        $countToday = TerritoryTask::whereDate('period', Carbon::today()->startOfDay())->count();
+        $countExpired = TerritoryTask::whereDate('period', '<', Carbon::today()->startOfDay())->count();
+        $countAccepted = TerritoryTask::where('status', 4)->count();
+
+        $categories = Category::all();
+        $territories = Territory::all();
+
+        return view('pages.management', [
+            'models' => $territorytasks,
+            'categories' => $categories,
+            'territories' => $territories,
+            'btnColor' => $btnColor,
+            'countAll' => $countAll,
+            'countTwo' => $countTwo,
+            'countTomorrow' => $countTomorrow,
+            'countToday' => $countToday,
+            'countExpired' => $countExpired,
+            'countAccepted' => $countAccepted
+        ]);
+    }
+
+    public function onetask(Request $request)
+    {
+        $territory_task = TerritoryTask::where('category_id', $request->category_id)->where('territory_id', $request->territory_id)->get();
+        return view('pages.onetask', ['models' => $territory_task]);
+    }
 
 
 

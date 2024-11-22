@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,6 +14,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('territory_id')->constrained('territories')->onDelete('cascade');
             $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
+            $table->date('muddat');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->string('status')->default(1);
             $table->timestamps();
         });

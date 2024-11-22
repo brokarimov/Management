@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Task</h1>
+                    <h1>Topshiriq</h1>
                 </div>
 
             </div>
@@ -38,6 +38,75 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
+
+                    <div class="row">
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3>Barchasi - {{$countAll}}</h3>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="/taskUser/{{1}}" class="small-box-footer">Hammasini ko'rish <i
+                                        class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h3>2 kun - {{$countTwo}} </h3>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="/taskUser/{{2}}" class="small-box-footer">Hammasini ko'rish <i
+                                        class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-primary">
+                                <div class="inner">
+                                    <h3>Ertaga - {{$countTomorrow}}</h3>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="/taskUser/{{3}}" class="small-box-footer">Hammasini ko'rish <i
+                                        class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3>Bugun - {{$countToday}}</h3>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="/taskUser/{{4}}" class="small-box-footer">Hammasini ko'rish <i
+                                        class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-danger">
+                                <div class="inner">
+                                    <h3>Muddati<br>buzilgan - {{$countExpired}}</h3>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="/taskUser/{{5}}" class="small-box-footer">Hammasini ko'rish <i
+                                        class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Button trigger modal -->
                     <div class="row mt-2">
                         <div class="col-12">
@@ -94,7 +163,7 @@
                                             <td>{{ $model->tasks->employee }}</td>
                                             <td>{{ $model->tasks->title }}</td>
                                             <td>
-                                                <a href="{{$model->tasks->file}}" target="_blank"
+                                                <a href="{{ asset($model->tasks->file) }}" target="_blank"
                                                     class="btn btn-outline-primary">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
@@ -105,6 +174,7 @@
                                                     </svg>
                                                 </a>
                                             </td>
+
                                             <td>{{ $model->created_at }}</td>
                                             <td>{{ $model->tasks->period }}</td>
                                             <td>
@@ -145,7 +215,7 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form action="answer" method="POST"
+                                                                    <form action="/answerStore" method="POST"
                                                                         enctype="multipart/form-data">
                                                                         @csrf
                                                                         <input type="hidden" name="task_id"
@@ -295,7 +365,7 @@
                                                                         <label for="Answer">Sarlavha: </label>
                                                                         {{$answer->title}}<br>
                                                                         <label for="Answer">File: </label>
-                                                                        <a href="{{$answer->file}}"
+                                                                        <a href="{{ asset($model->tasks->file) }}"
                                                                             style="text-decoration: underline;"
                                                                             target="_blank">Fileni ochish</a><br>
                                                                     @endforeach

@@ -10,6 +10,8 @@ class TerritoryTask extends Model
         'territory_id',
         'task_id',
         'status',
+        'category_id',
+        'period'
     ];
 
     public function tasks()

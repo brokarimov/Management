@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Task</h1>
+                    <h1>Topshiriq</h1>
                 </div>
 
             </div>
@@ -43,60 +43,60 @@
         <!-- small box -->
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>Barchasi - {{$territoryTaskCount}}</h3>
+                <h3>Barchasi - {{$countAll}}</h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/task" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{1}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     
     <div class="col-lg-3 col-6">
         <div class="small-box bg-warning">
             <div class="inner">
-                <h3>2 kun - {{$territoryTasksfortwoCount}} </h3> <!-- Здесь выводится количество задач за 2 дня -->
+                <h3>2 kun - {{$countTwo}} </h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/two" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{2}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     
     <div class="col-lg-3 col-6">
         <div class="small-box bg-primary">
             <div class="inner">
-                <h3>Ertaga - {{$territoryTasksforTomorrowCount}}</h3>
+                <h3>Ertaga - {{$countTomorrow}}</h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/tomorrow" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{3}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     
     <div class="col-lg-3 col-6">
         <div class="small-box bg-success">
             <div class="inner">
-                <h3>Bugun - {{$territoryTasksForTodayCount}}</h3>
+                <h3>Bugun - {{$countToday}}</h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/today" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{4}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     
     <div class="col-lg-3 col-6">
         <div class="small-box bg-danger">
             <div class="inner">
-                <h3>Muddati<br>buzilgan - {{$territoryTasksforExpiredCount}}</h3>
+                <h3>Muddati<br>buzilgan - {{$countExpired}}</h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/expired" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{5}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 </div>
@@ -264,17 +264,14 @@
                                             <td>{{ $model->tasks->employee }}</td>
                                             <td>{{ $model->tasks->title }}</td>
                                             <td>
-                                                <a href="{{$model->tasks->file}}" target="_blank"
-                                                    class="btn btn-outline-primary">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                                        <path
-                                                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
-                                                    </svg>
-                                                </a>
-                                            </td>
+    <a href="{{ asset( $model->tasks->file) }}" target="_blank" class="btn btn-outline-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+        </svg>
+    </a>
+</td>
+
                                             <td>{{ $model->created_at }}</td>
                                             <td>{{ $model->tasks->period }}</td>
                                             <td>
@@ -350,7 +347,7 @@
                                                                     <label for="User">Tavsifi:</label>
                                                                     {{$model->tasks->description}}<br>
                                                                     <label for="User">File: </label>
-                                                                    <a href="{{$model->tasks->file}}"
+                                                                    <a href="{{ asset($model->tasks->file) }}"
                                                                         style="text-decoration: underline;"
                                                                         target="_blank">Fileni ochish</a><br>
                                                                     <label for="User">Yuborilgan vaqti:</label>

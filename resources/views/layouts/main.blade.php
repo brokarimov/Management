@@ -132,23 +132,7 @@
 
 
 
-        @if (!auth()->check())
-      <li class="nav-item">
-        <a class="btn btn-primary mr-2" href="/login">Login</a>
-      </li>
 
-    @else
-    <li class="nav-item">
-      <form action="/logout" method="POST">
-      @csrf
-      <button class="btn btn-info" type="submit" class="nav-link">
-        logout
-      </button>
-      </form>
-    </li>
-
-
-  @endif
 
 
       </ul>
@@ -241,7 +225,7 @@
               </li>
 
               <li class="nav-item">
-              <a href="/task" class="nav-link">
+              <a href="{{route('TaskIndex', 1)}}" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
                 Topshiriqlar
@@ -258,10 +242,19 @@
                 </p>
               </a>
               </li>
+              <li class="nav-item">
+              <a href="/management/{{1}}" class="nav-link">
+                <i class="nav-icon far fa-calendar-alt"></i>
+                <p>
+                Boshqaruv
+                <span class="badge badge-info right"></span>
+                </p>
+              </a>
+              </li>
             @endif
                       @if (auth()->check() && auth()->user()->role == 'user')
               <li class="nav-item">
-              <a href="/taskUser" class="nav-link">
+              <a href="/taskUser/{{1}}" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
                 Topshiriqlar
@@ -269,8 +262,33 @@
                 </p>
               </a>
               </li>
+              <li class="nav-item">
+              <a href="/profile" class="nav-link">
+                <i class="nav-icon far fa-calendar-alt"></i>
+                <p>
+                Shaxsiy kabinet
+                <span class="badge badge-info right"></span>
+                </p>
+              </a>
+              </li>
             @endif
+                      @if (!auth()->check())
+              <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+              </li>
 
+            @else
+          <li class="nav-item">
+          <form action="/logout" method="POST">
+            @csrf
+            <button class="nav-link" type="submit" class="nav-link">
+            logout
+            </button>
+          </form>
+          </li>
+
+
+        @endif
 
 
                     </ul>

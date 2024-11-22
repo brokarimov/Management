@@ -55,7 +55,7 @@ class AnswerController extends Controller
         $territoryTask = TerritoryTask::where('id', $request->task_id)->first();
         $territoryTask->status = 3;
         $territoryTask->save();
-        return redirect('/taskUser')->with('success', 'Javob jo\'natildi!');
+        return redirect('/taskUser/1')->with('success', 'Javob jo\'natildi!');
     }
 
     /**
@@ -138,7 +138,7 @@ class AnswerController extends Controller
         // dd($answer);
         $task->save();
         $answer->save();
-        return redirect('/taskUser');
+        return redirect('/taskUser/1');
 
     }
 }

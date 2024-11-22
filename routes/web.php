@@ -7,6 +7,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TerritoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Check;
+use Illuminate\Foundation\Console\RouteCacheCommand;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,18 +18,19 @@ Route::middleware([Check::class . ':admin'])->group(function () {
     Route::resource('category', CategoryController::class);
     Route::resource('user', UserController::class);
     Route::resource('territory', TerritoryController::class);
+    Route::get('/task/{status}', [TaskController::class, 'index'])->name('TaskIndex');
     Route::resource('task', TaskController::class);
     Route::get('answer', [AnswerController::class, 'index']);
 
     Route::post('/acceptAnswer/{answer}', [AnswerController::class, 'acceptAnswer']);
     Route::post('/reject/{answer}', [AnswerController::class, 'reject']);
-    Route::get('/two', [TaskController::class, 'two']);
-    Route::get('/tomorrow', [TaskController::class, 'tomorrow']);
-    Route::get('/today', [TaskController::class, 'today']);
-    Route::get('/expired', [TaskController::class, 'expired']);
-
-
     
+
+    Route::get('/management/{status}', [TaskController::class, 'management']);
+    Route::post('/onetask', [TaskController::class, 'onetask']);
+
+
+
 
     // Search
     Route::get('/category-search', [CategoryController::class, 'search']);
@@ -38,11 +40,16 @@ Route::middleware([Check::class . ':admin'])->group(function () {
 });
 
 Route::middleware([Check::class . ':user'])->group(function () {
-    Route::get('/taskUser', [TaskController::class, 'indexUser']);
+    Route::get('/taskUser/{status}', [TaskController::class, 'indexUser']);
     Route::post('/filterUser', [TaskController::class, 'filterUser']);
     Route::post('/accept/{task}', [TaskController::class, 'accept']);
-    Route::post('answer', [AnswerController::class, 'store']);
+    Route::post('/answerStore', [AnswerController::class, 'store']);
     Route::post('/reanswer/{task}', [AnswerController::class, 'reanswer']);
+    Route::get('profile', [AuthController::class, 'profile']);
+    Route::post('profile', [AuthController::class, 'profileChange']);
+
+
+    
 
 });
 

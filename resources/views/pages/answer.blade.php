@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Task</h1>
+                    <h1>Topshiriq ijrosi</h1>
                 </div>
 
             </div>
@@ -70,11 +70,11 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Hudud</th>
-                                        <th>Sarlavha</th>
-                                        <th>File</th>
-                                        <th>Yuborilgan vaqti</th>
                                         <th>Topshiriq sarlavhasi</th>
                                         <th>Topshiriq File</th>
+                                        <th>Yuborilgan vaqti</th>
+                                        <th>Sarlavha</th>
+                                        <th>File</th>
                                         <th>Holati</th>
                                     </tr>
                                 </thead>
@@ -83,9 +83,11 @@
                                         <tr>
                                             <td>{{ $model->id }}</td>
                                             <td>{{$model->territories->name}}</td>
-                                            <td>{{ $model->title }}</td>
+                                            
+                                            <td>{{ $model->tasks->tasks->title }}</td>
                                             <td>
-                                                <a href="{{$model->file}}" target="_blank" class="btn btn-outline-primary">
+                                                <a href="{{ $model->tasks->tasks->file }}" target="_blank"
+                                                    class="btn btn-outline-primary">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
                                                         <path
@@ -96,10 +98,9 @@
                                                 </a>
                                             </td>
                                             <td>{{ $model->created_at }}</td>
-                                            <td>{{ $model->tasks->tasks->title }}</td>
+                                            <td>{{ $model->title }}</td>
                                             <td>
-                                                <a href="{{ $model->tasks->tasks->file }}" target="_blank"
-                                                    class="btn btn-outline-primary">
+                                                <a href="{{$model->file}}" target="_blank" class="btn btn-outline-primary">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
                                                         <path
