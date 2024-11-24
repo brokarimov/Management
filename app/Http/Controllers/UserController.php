@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\TerritoryTask;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::orderBy('id', 'asc')->paginate(10);
-        return view('pages.user', ['models' => $users]);
+
+        $AlertCount = TerritoryTask::where('status', 3)->count();
+
+        return view('pages.user', ['models' => $users, 'AlertCount' => $AlertCount]);
     }
 
     /**
@@ -88,6 +92,8 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $models = User::where('name', 'like', '%' . $request->search . '%')->orderBy('id', 'asc')->paginate(10);
-        return view('pages.user', ['models' => $models]);
+        $AlertCount = TerritoryTask::where('status', 3)->count();
+
+        return view('pages.user', ['models' => $models, 'AlertCount' => $AlertCount]);
     }
 }

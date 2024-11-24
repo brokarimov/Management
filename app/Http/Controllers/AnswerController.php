@@ -15,7 +15,10 @@ class AnswerController extends Controller
     public function index()
     {
         $answers = Answer::orderBy('id', 'desc')->paginate(10);
-        return view('pages.answer', ['models' => $answers]);
+
+        $AlertCount = TerritoryTask::where('status', 3)->count();
+
+        return view('pages.answer', ['models' => $answers, 'AlertCount' => $AlertCount]);
     }
 
     /**
@@ -139,6 +142,15 @@ class AnswerController extends Controller
         $task->save();
         $answer->save();
         return redirect('/taskUser/1');
+
+    }
+
+    public function incomingAnswer()
+    {
+        $answers = Answer::where('status', 1)->orderBy('id', 'desc')->paginate(10);
+
+        $AlertCount = TerritoryTask::where('status', 3)->count();
+        return view('pages.answer', ['models' => $answers, 'AlertCount' => $AlertCount]);
 
     }
 }

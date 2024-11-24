@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Territory;
 use App\Http\Controllers\Controller;
+use App\Models\TerritoryTask;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,10 @@ class TerritoryController extends Controller
     {
         $users = User::all();
         $territories = Territory::orderBy('id', 'asc')->paginate(10);
-        return view('pages.territory', ['models' => $territories, 'users' => $users]);
+
+        $AlertCount = TerritoryTask::where('status', 3)->count();
+
+        return view('pages.territory', ['models' => $territories, 'users' => $users, 'AlertCount' => $AlertCount]);
     }
 
     /**
@@ -86,6 +90,9 @@ class TerritoryController extends Controller
     {
         $users = User::all();
         $models = Territory::where('name', 'like', '%' . $request->search . '%')->orderBy('id', 'asc')->paginate(10);
-        return view('pages.territory', ['models' => $models, 'users'=>$users]);
+
+        $AlertCount = TerritoryTask::where('status', 3)->count();
+
+        return view('pages.territory', ['models' => $models, 'users' => $users, 'AlertCount' => $AlertCount]);
     }
 }

@@ -40,7 +40,7 @@
                     @endif
 
                     <div class="row">
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <div class="small-box bg-warning">
                                 <div class="inner">
                                     <h3>2 kun - {{$countTwo}} </h3>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <div class="small-box bg-primary">
                                 <div class="inner">
                                     <h3>Ertaga - {{$countTomorrow}}</h3>
@@ -80,7 +80,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-6 col-6">
                             <div class="small-box bg-success">
                                 <div class="inner">
                                     <h3>Bugun - {{$countToday}}</h3>
@@ -93,10 +93,10 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-6 col-6">
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>Muddati<br>buzilgan - {{$countExpired}}</h3>
+                                    <h3>Muddati buzilgan - {{$countExpired}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>

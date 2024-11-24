@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Http\Controllers\Controller;
+use App\Models\TerritoryTask;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,7 +15,10 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::orderBy('id', 'asc')->paginate(10);
-        return view('pages.category', ['models' => $categories]);
+
+        $AlertCount = TerritoryTask::where('status', 3)->count();
+
+        return view('pages.category', ['models' => $categories, 'AlertCount' => $AlertCount]);
     }
 
     /**
@@ -82,6 +86,9 @@ class CategoryController extends Controller
     public function search(Request $request)
     {
         $models = Category::where('name', 'like', '%' . $request->search . '%')->orderBy('id', 'asc')->paginate(10);
-        return view('pages.category', ['models' => $models]);
+
+        $AlertCount = TerritoryTask::where('status', 3)->count();
+
+        return view('pages.category', ['models' => $models, 'AlertCount' => $AlertCount]);
     }
 }

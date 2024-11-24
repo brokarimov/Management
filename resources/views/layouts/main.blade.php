@@ -110,6 +110,8 @@
       text-overflow: ellipsis;
     }
   </style>
+
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -129,11 +131,19 @@
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
+        @if (auth()->check() && auth()->user()->role == 'admin')
+      <li class="nav-item">
+        <a class="nav-link" href="/incomingAnswer">
+        <i class="far fa-comments" style="font-size: 20px;"></i>
+        @if($AlertCount != 0)
+      <span class="badge badge-danger navbar-badge" style="font-size: 10px;">
+        {{$AlertCount}}
+      </span>
+    @endif
 
-
-
-
-
+        </a>
+      </li>
+    @endif
 
       </ul>
 
@@ -197,6 +207,37 @@
 
                       @if (auth()->check() && auth()->user()->role == 'admin')
               <li class="nav-item">
+              <a href="/management/{{1}}" class="nav-link">
+                <i class="nav-icon far fa-calendar-alt"></i>
+                <p>
+                Boshqaruv
+                <span class="badge badge-info right"></span>
+                </p>
+              </a>
+              </li>
+
+              <li class="nav-item">
+              <a href="/report1" class="nav-link">
+                <i class="nav-icon far fa-calendar-alt"></i>
+                <p>
+                Hisobot 1
+                <span class="badge badge-info right"></span>
+                </p>
+              </a>
+              </li>
+              
+              <li class="nav-item">
+              <a href="/report2" class="nav-link">
+                <i class="nav-icon far fa-calendar-alt"></i>
+                <p>
+                Hisobot 2
+                <span class="badge badge-info right"></span>
+                </p>
+              </a>
+              </li>
+
+
+              <li class="nav-item">
               <a href="/category" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
@@ -242,15 +283,7 @@
                 </p>
               </a>
               </li>
-              <li class="nav-item">
-              <a href="/management/{{1}}" class="nav-link">
-                <i class="nav-icon far fa-calendar-alt"></i>
-                <p>
-                Boshqaruv
-                <span class="badge badge-info right"></span>
-                </p>
-              </a>
-              </li>
+
             @endif
                       @if (auth()->check() && auth()->user()->role == 'user')
               <li class="nav-item">
