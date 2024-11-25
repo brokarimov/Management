@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Territory\StoreRequest;
+use App\Http\Requests\Territory\UpdateRequest;
 use App\Models\Territory;
 use App\Http\Controllers\Controller;
 use App\Models\TerritoryTask;
@@ -34,12 +36,8 @@ class TerritoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'user_id' => 'required|exists:users,id',
-        ]);
         $data = $request->all();
 
         Territory::create($data);
@@ -65,13 +63,8 @@ class TerritoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Territory $territory)
+    public function update(UpdateRequest $request, Territory $territory)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'user_id' => 'required|exists:users,id',
-        ]);
-
         $data = $request->all();
 
         $territory->update($data);

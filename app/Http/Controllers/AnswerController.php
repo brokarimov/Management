@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Answer\StoreRequest;
 use App\Models\Answer;
 use App\Http\Controllers\Controller;
 use App\Models\TerritoryTask;
@@ -32,14 +33,9 @@ class AnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $data = $request->validate([
-            'task_id' => 'required|exists:territory_tasks,id',
-            'territory_id' => 'required|exists:territories,id',
-            'title' => 'required|max:255',
-            'file' => 'required|file|mimes:pdf',
-        ]);
+        
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();

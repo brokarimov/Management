@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\StoreRequest;
+use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Category;
 use App\Models\Task;
 use App\Http\Controllers\Controller;
@@ -147,23 +149,8 @@ class TaskController extends Controller
      */
 
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'territory_id' => 'required|array',
-            'territory_id.*' => 'exists:territories,id',
-            'employee' => 'required|max:255',
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'file' => 'required|file|mimes:pdf',
-            'period' => 'required',
-        ], [
-            'category_id.required' => 'Category is required.',
-            'territory_id.required' => 'At least one territory must be selected.',
-            'file.mimes' => 'Only PDF files are allowed.',
-        ]);
-
         $filePath = null;
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -223,25 +210,14 @@ class TaskController extends Controller
      */
 
 
-    public function update(Request $request, TerritoryTask $task)
+    public function update(UpdateRequest $request, TerritoryTask $task)
     {
-        $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'territory_id' => 'required|array',
-            'territory_id.*' => 'exists:territories,id',
-            'employee' => 'required|max:255',
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'file' => 'required|file|mimes:pdf',
-            'period' => 'required',
-        ]);
-
         $taskID = Task::where('id', $task->task_id)->first();
-        $taskID->employee = $validated['employee'];
-        $taskID->title = $validated['title'];
-        $taskID->description = $validated['description'];
-        $taskID->period = $validated['period'];
-        $taskID->category_id = $validated['category_id'];
+        $taskID->employee = $request->employee;
+        $taskID->title = $request->title;
+        $taskID->description = $request->description;
+        $taskID->period = $request->period;
+        $taskID->category_id = $request->category_id;
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -262,7 +238,7 @@ class TaskController extends Controller
         if ($request->has('territory_id')) {
             $existingTerritoryIds = $taskID->territories->pluck('id')->toArray();
 
-            $newTerritoryIds = array_diff($validated['territory_id'], $existingTerritoryIds);
+            $newTerritoryIds = array_diff($request->territory_id, $existingTerritoryIds);
 
             foreach ($newTerritoryIds as $territoryId) {
                 $taskID->territories()->attach($territoryId, [
@@ -295,13 +271,18 @@ class TaskController extends Controller
         $territoryTasks = TerritoryTask::orderBy('id', 'desc')->paginate(10);
 
         if ($start_date && $end_date) {
-            $taskIds = Task::whereBetween('period', [$start_date, $end_date])->pluck('id')->toArray();
+            if ($start_date < $end_date) {
+                $taskIds = Task::whereBetween('period', [$start_date, $end_date])->pluck('id')->toArray();
 
-            $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
+                $territoryTaskIds = TerritoryTask::whereIn('task_id', $taskIds)->pluck('id')->toArray();
 
-            $territoryTasks = TerritoryTask::whereIn('id', $territoryTaskIds)
-                ->orderBy('id', 'desc')
-                ->paginate(10);
+                $territoryTasks = TerritoryTask::whereIn('id', $territoryTaskIds)
+                    ->orderBy('id', 'desc')
+                    ->paginate(10);
+            } else {
+                return redirect()->back()->with('danger', 'Muddat xato kirtildi!');
+            }
+
         }
 
         $categories = Category::all();
@@ -342,9 +323,14 @@ class TaskController extends Controller
             ->orderBy('id', 'desc');
 
         if ($start_date && $end_date) {
-            $territoryTasksQuery->whereHas('tasks', function ($query) use ($start_date, $end_date) {
-                $query->whereBetween('period', [$start_date, $end_date]);
-            });
+            if ($start_date < $end_date) {
+                $territoryTasksQuery->whereHas('tasks', function ($query) use ($start_date, $end_date) {
+                    $query->whereBetween('period', [$start_date, $end_date]);
+                });
+            } else {
+                return redirect()->back()->with('danger', 'Muddat xato kirtildi!');
+            }
+
         }
 
         $territoryTasks = $territoryTasksQuery->paginate(10);
@@ -532,7 +518,11 @@ class TaskController extends Controller
         $territoryTasksQuery = TerritoryTask::query();
 
         if ($start_date && $end_date) {
-            $territoryTasksQuery->whereBetween('period', [$start_date, $end_date]);
+            if ($start_date < $end_date) {
+                $territoryTasksQuery->whereBetween('period', [$start_date, $end_date]);
+            } else {
+                return redirect()->back()->with('danger', 'Muddat xato kiritildi!');
+            }
         }
 
         $territoryTasks = $territoryTasksQuery->get();
@@ -540,15 +530,14 @@ class TaskController extends Controller
         $categories = Category::all();
         $territories = Territory::all();
 
-        $AlertCount = TerritoryTask::where('status', 3)->count();
+        $territoryTasksWithAlert = $territoryTasks->where('status', 3);
+        $AlertCount = $territoryTasksWithAlert->count();
 
         return view('pages.report2', [
-            'models' => $territoryTasks, 
+            'models' => $territoryTasks,
             'categories' => $categories,
             'territories' => $territories,
-            'territoryTasks' => $territoryTasks,
             'AlertCount' => $AlertCount,
         ]);
     }
-
 }

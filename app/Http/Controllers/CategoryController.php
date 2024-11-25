@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\StoreRequest;
+use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use App\Models\TerritoryTask;
@@ -32,11 +34,8 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required|max:255'
-        ]);
         $data = $request->all();
         Category::create($data);
 
@@ -62,11 +61,8 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateRequest $request, Category $category)
     {
-        $request->validate([
-            'name' => 'required|max:255'
-        ]);
         $data = $request->all();
         $category->update($data);
 

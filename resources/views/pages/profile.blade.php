@@ -6,8 +6,6 @@
 
 <div class="content-wrapper">
 
-
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -33,11 +31,13 @@
                         @csrf
                         <div class="col-4">
                             <label for="">Ism:</label>
-                            <input type="text" name="name" placeholder="name" class="form-control">
+                            <input type="text" name="name" placeholder="name" class="form-control"
+                                value="{{auth()->user()->name}}">
                             <label for="">Email</label>
-                            <input type="email" name="email" placeholder="Email" class="form-control">
-                            <label for="">Parol</label>
-                            <input type="password" name="password" class="form-control" placeholder="Parol">
+                            <input type="email" name="email" placeholder="Email" class="form-control"
+                                value="{{auth()->user()->email}}">
+
+                            <a style="text-decoration: underline;" href="verifyPage">Parolni unutdingizmi?</a><br>
                             <button type="submit" class="btn btn-primary mt-2">Submit</button>
                         </div>
                     </form>

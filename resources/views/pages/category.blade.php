@@ -193,7 +193,13 @@
                                                                         <label for="Category">Category Name:</label>
                                                                         <input type="text" class="form-control" name="name"
                                                                             placeholder="Name" value="{{$model->name}}">
+                                                                        @error('name')
+                                                                            <span class="text-danger">
+                                                                                {{$message}}<br>
+                                                                            </span>
+                                                                        @enderror
                                                                     </div>
+
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary"
                                                                             data-dismiss="modal">Close</button>

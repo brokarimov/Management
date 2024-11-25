@@ -51,12 +51,13 @@ Route::middleware([Check::class . ':user'])->group(function () {
     Route::post('/accept/{task}', [TaskController::class, 'accept']);
     Route::post('/answerStore', [AnswerController::class, 'store']);
     Route::post('/reanswer/{task}', [AnswerController::class, 'reanswer']);
+});
+Route::middleware([Check::class . ':user,admin'])->group(function () {
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('profile', [AuthController::class, 'profileChange']);
-
-
-
-
+    Route::get('/verifyPage', [AuthController::class, 'verifyPage']);
+    Route::post('/password', [AuthController::class, 'PasswordChange']);
+    Route::post('/passwordUpdate', [AuthController::class, 'PasswordUpdate']);
 });
 
 // Login

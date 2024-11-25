@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Topshiriq</h1>
+                    <h1>Hisobot</h1>
                 </div>
 
             </div>
@@ -22,6 +22,22 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+                @if (session('danger'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{session('danger')}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @elseif(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{session('success')}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @elseif(session('warning'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{session('warning')}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <div class="row mt-2">
                         <div class="col-12">
                             <form action="/filterReport" method="POST" class="form-inline">
