@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Hudud</h1>
+                    <h1>Territory</h1>
                 </div>
                 
             </div>
@@ -53,7 +53,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Hudud Create</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Territory Create</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -61,7 +61,7 @@
                                 <form action="/territory" method="POST">
                                     @csrf
                                     <div class="modal-body">
-                                        <label for="Category">Hudud Name:</label>
+                                        <label for="Category">Territory Name:</label>
                                         <input type="text" class="form-control" name="name" placeholder="Name">
                                         @error('name')
                                             <span class="text-danger">
@@ -142,14 +142,14 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title"
-                                                                        id="showModalLabel{{$model->id}}">Hudud</h5>
+                                                                        id="showModalLabel{{$model->id}}">Territory</h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <label for="User">Hudud Name:</label>
+                                                                    <label for="User">Territory Name:</label>
                                                                     {{$model->name}}<br>
                                                                     <label for="User">User Name:</label>
                                                                     {{$model->users->name}}<br>
@@ -181,7 +181,7 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title"
-                                                                        id="updateModalLabel{{$model->id}}">Hudud Update: {{$model->name}}
+                                                                        id="updateModalLabel{{$model->id}}">Territory Update: {{$model->name}}
                                                                     </h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
@@ -192,7 +192,7 @@
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <div class="modal-body">
-                                                                        <label for="User">Hudud Name:</label>
+                                                                        <label for="User">Territory Name:</label>
                                                                         <input type="text" class="form-control" name="name"
                                                                             placeholder="Name" value="{{$model->name}}">
                                                                         @error('name')

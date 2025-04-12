@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Topshiriq</h1>
+                    <h1>Task</h1>
                 </div>
 
             </div>
@@ -40,13 +40,13 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Hudud</th>
-                                        <th>Ijrochi</th>
-                                        <th>Sarlavha</th>
+                                        <th>Territory</th>
+                                        <th>Performer</th>
+                                        <th>Title</th>
                                         <th>File</th>
-                                        <th>Yuborilgan vaqti</th>
-                                        <th>Muddat</th>
-                                        <th>Holati</th>
+                                        <th>Sent time</th>
+                                        <th>Expired</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody id="">

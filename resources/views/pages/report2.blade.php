@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Hisobot</h1>
+                    <h1>Report</h1>
                 </div>
 
             </div>
@@ -60,11 +60,11 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Hududlar / Ijro hujjatlari</th>
-                                        <th>Jami kelib tushgan</th>
-                                        <th>Hal etilgan</th>
-                                        <th>Muddati buzilgan</th>
-                                        <th>Ijroda</th>
+                                        <th>Territories / Perform documents</th>
+                                        <th>All documents</th>
+                                        <th>Succeful</th>
+                                        <th>Expired</th>
+                                        <th>In process</th>
                                     </tr>
                                 </thead>
                                 <tbody id="">

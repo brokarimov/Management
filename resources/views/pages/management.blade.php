@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Topshiriq</h1>
+                    <h1>Task</h1>
                 </div>
 
             </div>
@@ -27,12 +27,12 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>Barchasi - {{$countAll}}</h3>
+                                    <h3>All - {{$countAll}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/management/{{1}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/management/{{1}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -40,12 +40,12 @@
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>2 kun - {{$countTwo}}</h3>
+                                    <h3>2 days - {{$countTwo}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/management/{{2}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/management/{{2}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -53,12 +53,12 @@
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>Ertaga - {{$countTomorrow}}</h3>
+                                    <h3>Tomorrow - {{$countTomorrow}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/management/{{3}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/management/{{3}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -66,12 +66,12 @@
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>Bugun - {{$countToday}}</h3>
+                                    <h3>Today - {{$countToday}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/management/{{4}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/management/{{4}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -79,24 +79,24 @@
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>Muddati buzilgan - {{$countExpired}}</h3>
+                                    <h3>Expired - {{$countExpired}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/management/{{5}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/management/{{5}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>Hal etilgan - {{$countAccepted}}</h3>
+                                    <h3>Seccessful - {{$countAccepted}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/management/{{6}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/management/{{6}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                             <table id="" class="table table-bordered table-striped mt-2">
                                 <thead>
                                     <tr>
-                                        <th>Hudud</th>
+                                        <th>Territory</th>
                                         @foreach ($categories as $category)
                                             <th>{{ $category->name }}</th>
                                         @endforeach

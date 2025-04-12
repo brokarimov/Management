@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('territory_id')->constrained('territories')->onDelete('cascade');
             $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
-            $table->date('muddat');
+            $table->date('period');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->string('status')->default(1);
             $table->timestamps();

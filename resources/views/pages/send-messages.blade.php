@@ -9,7 +9,7 @@
 </head>
 
 <body bgcolor="lightblue">
-    <h3 style="color: green">Sizning tasdiqlash parolingiz: {{$data['code']}}</h3>
+    <h3 style="color: green">Your code: {{$data['code']}}</h3>
 </body>
 
 </html>

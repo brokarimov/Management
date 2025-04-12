@@ -26,18 +26,18 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                    <h1>Shaxsiy kabinet</h1>
+                    <h1>Profile</h1>
                     <form action="/profile" method="POST">
                         @csrf
                         <div class="col-4">
-                            <label for="">Ism:</label>
+                            <label for="">Name:</label>
                             <input type="text" name="name" placeholder="name" class="form-control"
                                 value="{{auth()->user()->name}}">
                             <label for="">Email</label>
                             <input type="email" name="email" placeholder="Email" class="form-control"
                                 value="{{auth()->user()->email}}">
 
-                            <a style="text-decoration: underline;" href="verifyPage">Parolni unutdingizmi?</a><br>
+                            <a style="text-decoration: underline;" href="verifyPage">Forgot password?</a><br>
                             <button type="submit" class="btn btn-primary mt-2">Submit</button>
                         </div>
                     </form>

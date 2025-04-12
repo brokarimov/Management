@@ -226,7 +226,7 @@
               <a href="/management/{{1}}" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
-                Boshqaruv
+                Management
                 <span class="badge badge-info right"></span>
                 </p>
               </a>
@@ -236,7 +236,7 @@
               <a href="/report1" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
-                Hisobot 1
+                Report 1
                 <span class="badge badge-info right"></span>
                 </p>
               </a>
@@ -246,7 +246,7 @@
               <a href="/report2" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
-                Hisobot 2
+                Report 2
                 <span class="badge badge-info right"></span>
                 </p>
               </a>
@@ -256,7 +256,7 @@
               <a href="{{route('TaskIndex', 1)}}" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
-                Topshiriqlar
+                Tasks
                 <span class="badge badge-info right"></span>
                 </p>
               </a>
@@ -265,7 +265,7 @@
               <a href="/answer" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
-                Topshiriqlar ijrosi
+                Task Execution
                 <span class="badge badge-info right"></span>
                 </p>
               </a>
@@ -276,7 +276,7 @@
               <a href="/category" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
-                Categoryalar
+                Categories
                 <span class="badge badge-info right"></span>
                 </p>
               </a>
@@ -294,7 +294,7 @@
               <a href="/territory" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
-                Hududlar
+                Territories
                 <span class="badge badge-info right"></span>
                 </p>
               </a>
@@ -308,7 +308,7 @@
               <a href="/taskUser/{{1}}" class="nav-link">
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
-                Topshiriqlar
+                Tasks
                 <span class="badge badge-info right"></span>
                 </p>
               </a>

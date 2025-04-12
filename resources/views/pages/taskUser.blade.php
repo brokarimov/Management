@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Topshiriq</h1>
+                    <h1>Task</h1>
                 </div>
 
             </div>
@@ -44,12 +44,12 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>Barchasi - {{$countAll}}</h3>
+                                    <h3>All - {{$countAll}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/taskUser/{{1}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/taskUser/{{1}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -57,12 +57,12 @@
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>2 kun - {{$countTwo}} </h3>
+                                    <h3>2 days - {{$countTwo}} </h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/taskUser/{{2}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/taskUser/{{2}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -70,12 +70,12 @@
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>Ertaga - {{$countTomorrow}}</h3>
+                                    <h3>Tomorrow - {{$countTomorrow}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/taskUser/{{3}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/taskUser/{{3}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -83,12 +83,12 @@
                         <div class="col-lg-6 col-6">
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>Bugun - {{$countToday}}</h3>
+                                    <h3>Today - {{$countToday}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/taskUser/{{4}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/taskUser/{{4}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -96,12 +96,12 @@
                         <div class="col-lg-6 col-6">
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>Muddati buzilgan - {{$countExpired}}</h3>
+                                    <h3>Date expired - {{$countExpired}}</h3>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/taskUser/{{5}}" class="small-box-footer">Hammasini ko'rish <i
+                                <a href="/taskUser/{{5}}" class="small-box-footer">See all <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -112,11 +112,11 @@
                         <div class="col-12">
                             <form action="/filterUser" method="POST" class="form-inline">
                                 @csrf
+                                <label for="start_date" class="mr-2"> from</label>
                                 <input type="date" id="start_date" class="form-control mr-2" name="start_date">
-                                <label for="start_date" class="mr-2"> dan</label>
 
+                                <label for="end_date" class="mr-2"> to</label>
                                 <input type="date" id="end_date" class="form-control mr-2" name="end_date">
-                                <label for="end_date" class="mr-2"> gacha</label>
 
                                 <button type="submit" class="btn btn-outline-primary">Filter</button>
                             </form>
@@ -144,14 +144,14 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Hudud</th>
-                                        <th>Ijrochi</th>
-                                        <th>Sarlavha</th>
+                                        <th>Territory</th>
+                                        <th>Performer</th>
+                                        <th>Title</th>
                                         <th>File</th>
-                                        <th>Yuborilgan vaqti</th>
-                                        <th>Muddat</th>
-                                        <th>Holati</th>
-                                        <th>Javob</th>
+                                        <th>Sent time</th>
+                                        <th>Period</th>
+                                        <th>Status</th>
+                                        <th>Answer</th>
 
                                     </tr>
                                 </thead>
@@ -233,7 +233,7 @@
                                                                                 {{$message}}<br>
                                                                             </span>
                                                                         @enderror
-                                                                        <label for="Answer">Sarlavha</label>
+                                                                        <label for="Answer">Title</label>
                                                                         <input type="text" class="form-control" name="title"
                                                                             placeholder="Sarlavha"
                                                                             value="{{$model->tasks->title}}">
@@ -263,9 +263,9 @@
                                                         </div>
                                                     </div>
                                                 @elseif($model->status == 3)
-                                                    <p style="color:blue">Javob yuborilgan.</p>
+                                                    <p style="color:blue">Answer was sent</p>
                                                 @elseif($model->status == 4)
-                                                    <p style="color:green">Muvaffaqiyatli qabul qilindi.</p>
+                                                    <p style="color:green">Successful</p>
                                                 @elseif($model->status == 5)
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-outline-danger" data-toggle="modal"
@@ -283,8 +283,7 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Javob
-                                                                        qaytarildi: {{$model->id}}
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Anser was declined: {{$model->id}}
                                                                     </h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
@@ -302,7 +301,7 @@
                                                                         @csrf
                                                                         <input type="hidden" name="reanswer" value="3">
                                                                         <input type="hidden" name="status" value="1">
-                                                                        <label for="Answer">Sarlavha</label>
+                                                                        <label for="Answer">Title</label>
                                                                         <input type="text" class="form-control" name="title"
                                                                             placeholder="{{$model->tasks->title}}">
 
@@ -323,7 +322,7 @@
                                                                             <button type="button" class="btn btn-secondary"
                                                                                 data-dismiss="modal">Close</button>
                                                                             <button type="submit" class="btn btn-primary">
-                                                                                Qayta yuborish
+                                                                                Re-send
                                                                             </button>
                                                                         </div>
                                                                     </form>
@@ -353,7 +352,7 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Javob
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Answer
                                                                     </h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
@@ -362,12 +361,12 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     @foreach ($model->answers as $answer)
-                                                                        <label for="Answer">Sarlavha: </label>
+                                                                        <label for="Answer">Title: </label>
                                                                         {{$answer->title}}<br>
                                                                         <label for="Answer">File: </label>
                                                                         <a href="{{ asset($model->tasks->file) }}"
                                                                             style="text-decoration: underline;"
-                                                                            target="_blank">Fileni ochish</a><br>
+                                                                            target="_blank">Open file</a><br>
                                                                     @endforeach
                                                                 </div>
                                                                 <div class="modal-footer">

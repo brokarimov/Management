@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Topshiriq</h1>
+                    <h1>Task</h1>
                 </div>
 
             </div>
@@ -43,60 +43,60 @@
         <!-- small box -->
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>Barchasi - {{$countAll}}</h3>
+                <h3>All - {{$countAll}}</h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/task/{{1}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{1}}" class="small-box-footer">See all <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     
     <div class="col-lg-4 col-6">
         <div class="small-box bg-warning">
             <div class="inner">
-                <h3>2 kun - {{$countTwo}} </h3>
+                <h3>2 days - {{$countTwo}} </h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/task/{{2}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{2}}" class="small-box-footer">See all <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     
     <div class="col-lg-4 col-6">
         <div class="small-box bg-primary">
             <div class="inner">
-                <h3>Ertaga - {{$countTomorrow}}</h3>
+                <h3>Tomorrow - {{$countTomorrow}}</h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/task/{{3}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{3}}" class="small-box-footer">See all <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     
     <div class="col-lg-6 col-6">
         <div class="small-box bg-success">
             <div class="inner">
-                <h3>Bugun - {{$countToday}}</h3>
+                <h3>Today - {{$countToday}}</h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/task/{{4}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{4}}" class="small-box-footer">See all <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     
     <div class="col-lg-6 col-6">
         <div class="small-box bg-danger">
             <div class="inner">
-                <h3>Muddati buzilgan - {{$countExpired}}</h3>
+                <h3>Expired - {{$countExpired}}</h3>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/task/{{5}}" class="small-box-footer">Hammasini ko'rish <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/task/{{5}}" class="small-box-footer">See all <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 </div>
@@ -128,24 +128,24 @@
                                 <form action="/task" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="modal-body">
-                                        <label for="Category">Ijrochi:</label>
-                                        <input type="text" class="form-control" name="employee" placeholder="Ijrochi">
+                                        <label for="Category">Performer:</label>
+                                        <input type="text" class="form-control" name="employee" placeholder="Performer">
                                         @error('employee')
                                             <span class="text-danger">
                                                 {{$message}}<br>
                                             </span>
                                         @enderror
 
-                                        <label for="Category">Sarlavha:</label>
-                                        <input type="text" class="form-control" name="title" placeholder="Sarlavha">
+                                        <label for="Category">Title:</label>
+                                        <input type="text" class="form-control" name="title" placeholder="Title">
                                         @error('title')
                                             <span class="text-danger">
                                                 {{$message}}<br>
                                             </span>
                                         @enderror
 
-                                        <label for="Category">Tavsif:</label>
-                                        <input type="text" class="form-control" name="description" placeholder="Tavsif">
+                                        <label for="Category">Description:</label>
+                                        <input type="text" class="form-control" name="description" placeholder="Description">
                                         @error('description')
                                             <span class="text-danger">
                                                 {{$message}}<br>
@@ -160,7 +160,7 @@
                                             </span>
                                         @enderror
 
-                                        <label for="Category">Muddat:</label>
+                                        <label for="Category">Period:</label>
                                         <input type="date" class="form-control" name="period">
                                         @error('period')
                                             <span class="text-danger">
@@ -181,9 +181,9 @@
                                         @enderror
 
                                         <div class="form-group">
-                                            <label for="hudud">Hudud</label>
+                                            <label for="hudud">Territory</label>
                                             <div class="select2-purple">
-                                                <select class="select2" multiple data-placeholder="Select a State"
+                                                <select class="select2" multiple data-placeholder="Select a Territory"
                                                     style="width: 100%;" name="territory_id[]">
                                                     @foreach ($territories as $territory)
                                                         <option value="{{$territory->id}}">{{$territory->name}}</option>
@@ -246,13 +246,13 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Hudud</th>
-                                        <th>Ijrochi</th>
-                                        <th>Sarlavha</th>
+                                        <th>Territory</th>
+                                        <th>Performer</th>
+                                        <th>Title</th>
                                         <th>File</th>
-                                        <th>Yuborilgan vaqti</th>
-                                        <th>Muddat</th>
-                                        <th>Holati</th>
+                                        <th>Send time</th>
+                                        <th>Period</th>
+                                        <th>Status</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
@@ -330,32 +330,32 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title"
-                                                                        id="showModalLabel{{$model->id}}">Topshiriq</h5>
+                                                                        id="showModalLabel{{$model->id}}">Task</h5>
                                                                     <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <label for="User">Hudud:</label>
+                                                                    <label for="User">Territory:</label>
                                                                     {{$model->territories->name}}<br>
                                                                     <label for="User">Ijrochi:</label>
                                                                     {{$model->tasks->employee}}<br>
                                                                     <label for="User">Category:</label>
                                                                     {{$model->tasks->categories->name}}<br>
-                                                                    <label for="User">Sarlavha:</label>
+                                                                    <label for="User">Title:</label>
                                                                     {{$model->tasks->title}}<br>
-                                                                    <label for="User">Tavsifi:</label>
+                                                                    <label for="User">Description:</label>
                                                                     {{$model->tasks->description}}<br>
                                                                     <label for="User">File: </label>
                                                                     <a href="{{ asset($model->tasks->file) }}"
                                                                         style="text-decoration: underline;"
-                                                                        target="_blank">Fileni ochish</a><br>
-                                                                    <label for="User">Yuborilgan vaqti:</label>
+                                                                        target="_blank">Open file</a><br>
+                                                                    <label for="User">Sent time:</label>
                                                                     {{$model->created_at}}<br>
-                                                                    <label for="User">Muddat:</label>
+                                                                    <label for="User">Period:</label>
                                                                     {{$model->tasks->period}}<br>
-                                                                    <label for="User">Holati:</label>
+                                                                    <label for="User">Status:</label>
                                                                     {{$model->status}}<br>
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -396,7 +396,7 @@
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <div class="modal-body">
-                                                                        <label for="Category">Ijrochi:</label>
+                                                                        <label for="Category">Performer:</label>
                                                                         <input type="text" class="form-control"
                                                                             name="employee" placeholder="Ijrochi"
                                                                             value="{{$model->tasks->employee}}">
@@ -406,7 +406,7 @@
                                                                             </span>
                                                                         @enderror
 
-                                                                        <label for="Category">Sarlavha:</label>
+                                                                        <label for="Category">Title:</label>
                                                                         <input type="text" class="form-control" name="title"
                                                                             placeholder="Sarlavha"
                                                                             value="{{$model->tasks->title}}">
@@ -416,7 +416,7 @@
                                                                             </span>
                                                                         @enderror
 
-                                                                        <label for="Category">Tavsif:</label>
+                                                                        <label for="Category">Description:</label>
                                                                         <input type="text" class="form-control"
                                                                             name="description" placeholder="Tavsif"
                                                                             value="{{$model->tasks->description}}">
@@ -438,7 +438,7 @@
                                                                         </span>
                                                                         @enderror
 
-                                                                        <label for="Category">Muddat:</label>
+                                                                        <label for="Category">Period:</label>
                                                                         <input type="date" class="form-control"
                                                                             name="period" value="{{$model->tasks->period}}">
                                                                         @error('period')
@@ -464,7 +464,7 @@
                                                                         @enderror
 
                                                                         <div class="form-group">
-                                                                            <label for="hudud">Hudud</label>
+                                                                            <label for="hudud">Territory</label>
                                                                             <div class="select2-purple">
                                                                                 <select class="select2" multiple
                                                                                     data-placeholder="Select a State"

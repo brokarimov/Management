@@ -7,6 +7,7 @@ use App\Models\Answer;
 use App\Http\Controllers\Controller;
 use App\Models\TerritoryTask;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class AnswerController extends Controller
 {
@@ -33,9 +34,9 @@ class AnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request)
+    public function store(Request $request)
     {
-        
+        $filePath = null;
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
@@ -49,7 +50,11 @@ class AnswerController extends Controller
             $filePath = 'pdf_upload/' . $filename;
             $data['file'] = $filePath;
         }
-
+        $data['task_id'] = $request->task_id;
+        $data['territory_id'] = $request->territory_id;
+        $data['title'] = $request->title;
+         
+        // dd($request->all(), $data);
         Answer::create($data);
         $territoryTask = TerritoryTask::where('id', $request->task_id)->first();
         $territoryTask->status = 3;
@@ -108,7 +113,6 @@ class AnswerController extends Controller
         $task->save();
         $answer->save();
         return redirect('/answer');
-
     }
 
     public function reanswer(Request $request, TerritoryTask $task)
@@ -117,7 +121,6 @@ class AnswerController extends Controller
         $task->status = $request->reanswer;
         foreach ($task->answers as $answer) {
             $answer = Answer::findOrFail($answer->id);
-
         }
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -138,7 +141,6 @@ class AnswerController extends Controller
         $task->save();
         $answer->save();
         return redirect('/taskUser/1');
-
     }
 
     public function incomingAnswer()
@@ -147,6 +149,5 @@ class AnswerController extends Controller
 
         $AlertCount = TerritoryTask::where('status', 3)->count();
         return view('pages.answer', ['models' => $answers, 'AlertCount' => $AlertCount]);
-
     }
 }

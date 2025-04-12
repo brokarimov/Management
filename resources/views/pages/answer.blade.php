@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Topshiriq ijrosi</h1>
+                    <h1>Task execution</h1>
                 </div>
 
             </div>
@@ -69,13 +69,13 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Hudud</th>
-                                        <th>Topshiriq sarlavhasi</th>
-                                        <th>Topshiriq File</th>
-                                        <th>Yuborilgan vaqti</th>
-                                        <th>Sarlavha</th>
+                                        <th>Territory</th>
+                                        <th>Task title</th>
+                                        <th>Task file</th>
+                                        <th>Sent time</th>
+                                        <th>Title</th>
                                         <th>File</th>
-                                        <th>Holati</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody id="">
@@ -144,8 +144,7 @@
                                                             <div class="modal-dialog" role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">Bekor
-                                                                            qilish: {{$model->id}}</h5>
+                                                                        <h5 class="modal-title" id="exampleModalLabel">Decline: {{$model->id}}</h5>
                                                                         <button type="button" class="close" data-dismiss="modal"
                                                                             aria-label="Close">
                                                                             <span aria-hidden="true">&times;</span>
@@ -163,8 +162,7 @@
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary"
                                                                                 data-dismiss="modal">Close</button>
-                                                                            <button type="submit" class="btn btn-danger">Bekor
-                                                                                qilish</button>
+                                                                            <button type="submit" class="btn btn-danger">Decline</button>
                                                                         </div>
                                                                     </form>
 
@@ -173,9 +171,9 @@
                                                         </div>
 
                                                     @elseif($model->tasks->status == 4)
-                                                        <p style="color:green">Muvaffaqiyatli qabul qilindi.</p>
+                                                        <p style="color:green">Successful.</p>
                                                     @elseif($model->tasks->status == 5)
-                                                        <p style="color:red">Qaytarildi.</p>
+                                                        <p style="color:red">Declined.</p>
                                                     @endif
                                                 </div>
 

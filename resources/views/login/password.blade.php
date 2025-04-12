@@ -13,7 +13,7 @@
                         @csrf
                         <div class="col-5">
                             <div class="mb-3 mt-2">
-                                <label for="">Parolni kiriting:</label>
+                                <label for="">Enter Password:</label>
 
                                 <input type="password" name="password" class="form-control">
                             </div>

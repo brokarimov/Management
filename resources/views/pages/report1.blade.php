@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Hisobot')
+@section('title', 'Report')
 
 @section('content')
 
@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Hisobot</h1>
+                    <h1>Report</h1>
                 </div>
 
             </div>
@@ -32,141 +32,141 @@
                                     <thead>
                                         <tr>
                                             <th style=" border: 1px solid #ccc;">№</th>
-                                            <th style=" border: 1px solid #ccc;">Hududlar
-                                                /<br>Ijro<br>hujjatlari</th>
+                                            <th style=" border: 1px solid #ccc;">Territories
+                                                /<br>Performance<br>documents</th>
                                             <th style=" border: 1px solid #ccc;">
-                                                Ijrochilik<br>intizomining<br>holati</th>
+                                                The<br>state<br>of<br>executive<br>discipline</th>
                                             @foreach ($territories as $territory)
-                                                <th
-                                                    style="writing-mode: vertical-rl; transform: rotate(180deg); padding: 10px;  vertical-align: middle; border: 1px solid #ccc;">
-                                                    {{ $territory->name }}
-                                                </th>
+                                            <th
+                                                style="writing-mode: vertical-rl; transform: rotate(180deg); padding: 10px;  vertical-align: middle; border: 1px solid #ccc;">
+                                                {{ $territory->name }}
+                                            </th>
                                             @endforeach
                                             <th style=" border: 1px solid #ccc;">
-                                                Jami<br>hududlar<br>bo'yicha</th>
+                                                By<br>all<br>territories</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($categories as $category)
-                                            <tr>
-                                                <td style=" vertical-align: middle; border: 1px solid #ccc;">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                <td style=" vertical-align: middle; border: 1px solid #ccc;">
-                                                    {{ $category->name }}
-                                                </td>
-                                                <td style="padding: 0; border: 1px solid #ccc;">
-                                                    <table class="table table-bordered"
-                                                        style="border-collapse: collapse; width: 100%; margin: 0;">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                    Kelib tushdi</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                    Hal etildi</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                    Muddati buzilgan</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                    Ijroda</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                                @foreach ($territories as $territory)
-                                                    <td style="padding: 0; border: 1px solid #ccc;">
-                                                        <table style="border-collapse: collapse; width: 100%; margin: 0;">
-                                                            <tbody>
+                                        <tr>
+                                            <td style=" vertical-align: middle; border: 1px solid #ccc;">
+                                                {{ $loop->iteration }}
+                                            </td>
+                                            <td style=" vertical-align: middle; border: 1px solid #ccc;">
+                                                {{ $category->name }}
+                                            </td>
+                                            <td style="padding: 0; border: 1px solid #ccc;">
+                                                <table class="table table-bordered"
+                                                    style="border-collapse: collapse; width: 100%; margin: 0;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                In checking</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                Successfull</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                Expired</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                In process</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            @foreach ($territories as $territory)
+                                            <td style="padding: 0; border: 1px solid #ccc;">
+                                                <table style="border-collapse: collapse; width: 100%; margin: 0;">
+                                                    <tbody>
 
-                                                                <tr>
-                                                                    <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                        <button class="btn btn-warning"
-                                                                            style="font-size: 10px; padding: 2px 5px;">
-                                                                            {{$models->where('territory_id', $territory->id)->where('category_id', $category->id)->where('status', 3)->count()}}
-                                                                        </button>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                <button class="btn btn-warning"
+                                                                    style="font-size: 10px; padding: 2px 5px;">
+                                                                    {{$models->where('territory_id', $territory->id)->where('category_id', $category->id)->where('status', 3)->count()}}
+                                                                </button>
 
 
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                        <button class="btn btn-success"
-                                                                            style="font-size: 10px; padding: 2px 5px;">
-                                                                            {{$models->where('territory_id', $territory->id)->where('category_id', $category->id)->where('status', 4)->count()}}
-                                                                        </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                <button class="btn btn-success"
+                                                                    style="font-size: 10px; padding: 2px 5px;">
+                                                                    {{$models->where('territory_id', $territory->id)->where('category_id', $category->id)->where('status', 4)->count()}}
+                                                                </button>
 
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                        <button class="btn btn-danger"
-                                                                            style="font-size: 10px; padding: 2px 5px;">
-                                                                            {{$models->where('territory_id', $territory->id)->where('category_id', $category->id)->where('period', '<', now()->yesterday()->startOfDay())->count()}}
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                        <button class="btn btn-info"
-                                                                            style="font-size: 10px; padding: 2px 5px;">
-                                                                            {{$models->where('category_id', $category->id)->where('territory_id', $territory->id)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                <button class="btn btn-danger"
+                                                                    style="font-size: 10px; padding: 2px 5px;">
+                                                                    {{$models->where('territory_id', $territory->id)->where('category_id', $category->id)->where('period', '<', now()->yesterday()->startOfDay())->count()}}
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                <button class="btn btn-info"
+                                                                    style="font-size: 10px; padding: 2px 5px;">
+                                                                    {{$models->where('category_id', $category->id)->where('territory_id', $territory->id)
                                                                             ->filter(function ($item) {
                                                                             return in_array($item->status, [1, 2]);
                                                                             })->count();}}
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </td>
-                                                @endforeach
-                                                <td style="padding: 0; border: 1px solid #ccc;">
-                                                    <table style="border-collapse: collapse; width: 100%; margin: 0;">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                    <button class="btn btn-warning"
-                                                                        style="font-size: 10px; padding: 2px 5px;">
-                                                                        {{$models->where('category_id', $category->id)->where('status', 3)->count()}}
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                    <button class="btn btn-success"
-                                                                        style="font-size: 10px; padding: 2px 5px;">
-                                                                        {{$models->where('category_id', $category->id)->where('status', 4)->count()}}
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                    <button class="btn btn-danger"
-                                                                        style="font-size: 10px; padding: 2px 5px;">
-                                                                        {{$models->where('category_id', $category->id)->where('period', '<', now()->yesterday()->startOfDay())->count()}}
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding: 8px;  border: 1px solid #ccc;">
-                                                                    <button class="btn btn-info"
-                                                                        style="font-size: 10px; padding: 2px 5px;">
-                                                                        {{$models->where('category_id', $category->id)
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            @endforeach
+                                            <td style="padding: 0; border: 1px solid #ccc;">
+                                                <table style="border-collapse: collapse; width: 100%; margin: 0;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                <button class="btn btn-warning"
+                                                                    style="font-size: 10px; padding: 2px 5px;">
+                                                                    {{$models->where('category_id', $category->id)->where('status', 3)->count()}}
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                <button class="btn btn-success"
+                                                                    style="font-size: 10px; padding: 2px 5px;">
+                                                                    {{$models->where('category_id', $category->id)->where('status', 4)->count()}}
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                <button class="btn btn-danger"
+                                                                    style="font-size: 10px; padding: 2px 5px;">
+                                                                    {{$models->where('category_id', $category->id)->where('period', '<', now()->yesterday()->startOfDay())->count()}}
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 8px;  border: 1px solid #ccc;">
+                                                                <button class="btn btn-info"
+                                                                    style="font-size: 10px; padding: 2px 5px;">
+                                                                    {{$models->where('category_id', $category->id)
                                                                         ->filter(function ($item) {
                                                                         return in_array($item->status, [1, 2]);
                                                                         })->count();}}
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

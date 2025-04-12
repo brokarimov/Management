@@ -13,7 +13,7 @@
                         @csrf
                         <div class="col-5">
                             <div class="mb-3 mt-2">
-                                <label for="">Emailga yuborilgan kodni kiriting:</label>
+                                <label for="">Enter a code which is sent to email:</label>
 
                                 <input type="text" name="code" class="form-control">
                             </div>
