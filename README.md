@@ -61,6 +61,12 @@ Statistics by date, with filtering options
 <p float="left">
   <img src="./screenshots/Screenshot 2025-04-13 045735.png" width="48%" />
   <img src="./screenshots/Screenshot 2025-04-13 045744.png" width="48%" />
+  <img src="./screenshots/Screenshot 2025-04-13 045753.png" width="48%" />
+  <img src="./screenshots/Screenshot 2025-04-13 045810.png" width="48%" />
+  <img src="./screenshots/Screenshot 2025-04-13 045818.png" width="48%" />
+  <img src="./screenshots/Screenshot 2025-04-13 045835.png" width="48%" />
+  
+    
 </p>
 
 ---
